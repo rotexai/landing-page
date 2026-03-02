@@ -77,14 +77,14 @@ export default function AIAgent() {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
-            Tính năng trọng tâm
+            Rox — Trợ lý AI
           </span>
           <h2 className="ai-agent__title">
             Một câu hỏi.<br />Xong việc ngay.
           </h2>
           <p className="ai-agent__sub">
-            Trợ lý AI của RotexAI hiểu ngôn ngữ tự nhiên — không cần nhớ menu,
-            không cần biết phần mềm. Chỉ cần nói, AI sẽ làm.
+            Rox hiểu ngôn ngữ tự nhiên — không cần nhớ menu,
+            không cần biết phần mềm. Chỉ cần nói với Rox, xong việc ngay.
           </p>
         </div>
 
@@ -116,7 +116,7 @@ export default function AIAgent() {
                 </svg>
               </div>
               <div>
-                <div className="ai-chat__name">Trợ lý RotexAI</div>
+                <div className="ai-chat__name">Rox</div>
                 <div className="ai-chat__status">
                   <span className="ai-chat__online" />
                   Đang hoạt động

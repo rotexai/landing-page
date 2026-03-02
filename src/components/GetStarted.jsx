@@ -46,7 +46,7 @@ export default function GetStarted() {
                 {[
                   { icon: '📦', label: 'Kho hàng',         val: 'Theo dõi tức thời'  },
                   { icon: '📁', label: 'Tài liệu',          val: 'Lưu trữ tập trung'  },
-                  { icon: '🤖', label: 'Trợ lý AI',         val: 'Hỗ trợ 24/7'        },
+                  { icon: '🤖', label: 'Rox AI',             val: 'Hỗ trợ 24/7'        },
                   { icon: '👥', label: 'Nhóm',              val: 'Phân quyền linh hoạt' },
                   { icon: '🔒', label: 'Bảo mật',           val: 'Máy chủ riêng'      },
                   { icon: '📊', label: 'Báo cáo',           val: 'Tự động hoá'         },

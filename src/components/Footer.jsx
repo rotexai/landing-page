@@ -3,7 +3,7 @@ import './Footer.css'
 const LINKS = {
   'Sản phẩm': [
     { label: 'Tính năng',          href: '#features'  },
-    { label: 'Trợ lý AI',          href: '#ai-agent'  },
+    { label: 'Rox AI',              href: '#ai-agent'  },
     { label: 'Cách hoạt động',     href: '#how-it-works' },
     { label: 'Câu hỏi thường gặp', href: '#faq'       },
   ],

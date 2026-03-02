@@ -8,7 +8,7 @@ function DashboardMockup() {
     { label: 'Tài liệu',   active: false, color: 'var(--feat-storage)'   },
     { label: 'Hoạt động',  active: false, color: 'var(--feat-activity)'  },
     { label: 'Nhóm',       active: false, color: 'var(--feat-access)'    },
-    { label: 'Trợ lý AI',  active: false, color: 'var(--teal)'           },
+    { label: 'Rox AI',     active: false, color: 'var(--teal)'           },
   ]
 
   const stats = [
@@ -97,7 +97,7 @@ function DashboardMockup() {
         <div className="mockup__ai-popup" aria-hidden="true">
           <div className="mockup__ai-header">
             <div className="mockup__ai-dot" />
-            <span>Trợ lý AI</span>
+            <span>Rox AI</span>
           </div>
           <p className="mockup__ai-text">3 mặt hàng sắp hết. Tôi có thể tạo đơn nhập tự động không?</p>
           <div className="mockup__ai-btns">
@@ -121,7 +121,7 @@ export default function Hero() {
         <div className="hero__left">
           <div className="hero__eyebrow">
             <span className="hero__eyebrow-dot" aria-hidden="true" />
-            Trợ lý AI tích hợp · ERP cho doanh nghiệp Việt Nam
+            Rox AI tích hợp · ERP cho doanh nghiệp Việt Nam
           </div>
 
           <h1 className="hero__h1">
@@ -130,8 +130,8 @@ export default function Hero() {
           </h1>
 
           <p className="hero__sub">
-            RotexAI ERP tích hợp trợ lý AI để đơn giản hoá toàn bộ vận hành.
-            Hỏi để tra cứu, ra lệnh để thực hiện — kho hàng, tài liệu, nhóm
+            RotexAI ERP tích hợp Rox — trợ lý AI đơn giản hoá toàn bộ vận hành.
+            Hỏi Rox để tra cứu, ra lệnh để thực hiện — kho hàng, tài liệu, nhóm
             đều trong một hệ thống duy nhất.
           </p>
 
@@ -149,7 +149,7 @@ export default function Hero() {
 
           <div className="hero__trust">
             {[
-              { icon: '🤖', text: 'Trợ lý AI xử lý tác vụ thay bạn'     },
+              { icon: '🤖', text: 'Rox xử lý tác vụ thay bạn'            },
               { icon: '🔒', text: 'Dữ liệu lưu trên máy chủ riêng'       },
               { icon: '🛡️', text: 'Bảo mật và hỗ trợ cấp doanh nghiệp'  },
             ].map(t => (

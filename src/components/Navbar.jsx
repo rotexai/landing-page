@@ -22,7 +22,7 @@ export default function Navbar() {
 
         <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
           <a href="#features"     className="nav__link" onClick={close}>Tính năng</a>
-          <a href="#ai-agent"    className="nav__link nav__link--ai" onClick={close}>Trợ lý AI</a>
+          <a href="#ai-agent"    className="nav__link nav__link--ai" onClick={close}>Rox AI</a>
           <a href="#how-it-works" className="nav__link" onClick={close}>Cách hoạt động</a>
           <a href="#faq"          className="nav__link" onClick={close}>Câu hỏi thường gặp</a>
           <a href="#get-started"  className="nav__link" onClick={close}>Liên hệ</a>
