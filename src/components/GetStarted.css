@@ -1,0 +1,211 @@
+.gs__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Main card ──────────────────────────────── */
+.gs__card {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 340px;
+}
+
+.gs__card-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(193, 100, 25, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 20%, rgba(13, 115, 119, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.gs__card-content {
+  position: relative;
+  z-index: 1;
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.gs__title {
+  font-family: var(--f-display);
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.gs__sub {
+  font-size: 16.5px;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+.gs__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.gs__note {
+  font-size: 12.5px;
+  color: var(--text-3);
+  margin-top: -4px;
+}
+
+/* ── Visual side ────────────────────────────── */
+.gs__card-visual {
+  position: relative;
+  z-index: 1;
+  padding: 36px 40px 36px 32px;
+  display: flex;
+  align-items: center;
+  background: var(--bg-1);
+  border-left: 1px solid var(--border-light);
+}
+
+.gs__vis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.gs__vis-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.gs__vis-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.gs__vis-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.gs__vis-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.gs__vis-val {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* ── Developer note ─────────────────────────── */
+.gs__for-devs {
+  background: var(--bg-1);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.gs__devs-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.gs__devs-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.gs__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+
+.gs__devs-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--amber);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color var(--t);
+}
+
+.gs__devs-link:hover {
+  color: var(--amber-hover);
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 860px) {
+  .gs__card {
+    grid-template-columns: 1fr;
+  }
+
+  .gs__card-visual {
+    border-left: none;
+    border-top: 1px solid var(--border-light);
+    padding: 28px 32px;
+  }
+
+  .gs__card-content {
+    padding: 36px 32px;
+  }
+}
+
+@media (max-width: 560px) {
+  .gs__card-content {
+    padding: 28px 24px;
+    gap: 16px;
+  }
+
+  .gs__card-visual {
+    padding: 24px;
+  }
+
+  .gs__vis-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gs__for-devs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

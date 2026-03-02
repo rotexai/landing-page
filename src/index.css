@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Core Palette ─────────────────────────── */
+  --bg:       #FDFCFA;
+  --bg-1:     #F6F3EE;
+  --bg-2:     #EDE8E1;
+  --surface:  #FFFFFF;
+
+  /* ── Borders ──────────────────────────────── */
+  --border:       #E2DCD5;
+  --border-light: #EDE8E3;
+
+  /* ── Amber (primary accent) ───────────────── */
+  --amber:       #C16419;
+  --amber-hover: #A35314;
+  --amber-soft:  #FEF3E8;
+  --amber-mid:   rgba(193, 100, 25, 0.14);
+
+  /* ── Teal (secondary) ─────────────────────── */
+  --teal:      #0D7377;
+  --teal-soft: #E6F4F4;
+
+  /* ── Feature accent colors ────────────────── */
+  --feat-inventory: #C16419;
+  --feat-storage:   #2563EB;
+  --feat-activity:  #7C3AED;
+  --feat-dashboard: #059669;
+  --feat-access:    #DC2626;
+
+  /* ── Text ─────────────────────────────────── */
+  --text:   #1A1612;
+  --text-2: #6C6258;
+  --text-3: #AEA8A2;
+
+  /* ── Shadows ──────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.09), 0 4px 12px rgba(0,0,0,0.05);
+
+  /* ── Typography ───────────────────────────── */
+  --f-display: 'Be Vietnam Pro', system-ui, sans-serif;
+  --f-body:    'Be Vietnam Pro', system-ui, sans-serif;
+
+  /* ── Layout ───────────────────────────────── */
+  --max-w: 1140px;
+  --nav-h: 66px;
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* ── Easing ───────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t:        0.18s ease;
+  --t-slow:   0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Layout ───────────────────────────────────── */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+/* ── Scroll Reveal ────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Buttons ──────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-family: var(--f-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--t-slow);
+  white-space: nowrap;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--amber);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(193, 100, 25, 0.25);
+}
+
+.btn--primary:hover {
+  background: var(--amber-hover);
+  box-shadow: 0 6px 20px rgba(193, 100, 25, 0.32);
+  transform: translateY(-2px);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--text-2);
+  border: 1.5px solid var(--border);
+}
+
+.btn--outline:hover {
+  color: var(--text);
+  border-color: var(--text-3);
+  background: var(--bg-1);
+  transform: translateY(-1px);
+}
+
+/* ── Section Header Utilities ─────────────────── */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: var(--f-display);
+  font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 17px;
+  color: var(--text-2);
+  line-height: 1.72;
+  max-width: 560px;
+}
+
+/* ── Dividers ─────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: var(--border-light);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+/* ── Scrollbar ────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }

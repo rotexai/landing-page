@@ -1,0 +1,149 @@
+.features {
+  position: relative;
+}
+
+.features__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-1);
+  z-index: -1;
+}
+
+.features__header {
+  margin-bottom: 52px;
+}
+
+/* ── Grid ───────────────────────────────────── */
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* ── Card ───────────────────────────────────── */
+.feat-card {
+  --feat-color: var(--amber);
+  --feat-soft:  var(--amber-soft);
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.25s ease, transform 0.25s var(--ease-out), border-color 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.feat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: var(--border);
+}
+
+/* Icon */
+.feat-card__icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--feat-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--feat-color);
+  transition: transform 0.25s ease;
+}
+
+.feat-card__icon-wrap svg {
+  width: 22px;
+  height: 22px;
+}
+
+.feat-card:hover .feat-card__icon-wrap {
+  transform: scale(1.08);
+}
+
+/* Body */
+.feat-card__body {
+  flex: 1;
+}
+
+.feat-card__name {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.feat-card__desc {
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+/* Benefit tag */
+.feat-card__benefit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--feat-color);
+  background: var(--feat-soft);
+  padding: 5px 10px;
+  border-radius: 100px;
+  align-self: flex-start;
+}
+
+/* ── "And more" card ──────────────────────── */
+.feat-card--more {
+  background: var(--bg-1);
+  border-style: dashed;
+  border-color: var(--border);
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px 26px;
+  gap: 16px;
+}
+
+.feat-card--more:hover {
+  background: var(--bg-1);
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.feat-card__more-text {
+  font-size: 14.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.feat-card__more-link {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--amber);
+  text-decoration: none;
+  transition: color var(--t);
+}
+
+.feat-card__more-link:hover {
+  color: var(--amber-hover);
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 900px) {
+  .features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .features__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
