@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import Modules from './components/Modules.jsx'
+import AIAgent from './components/AIAgent.jsx'
 import Architecture from './components/Architecture.jsx'
 import GetStarted from './components/GetStarted.jsx'
 import Footer from './components/Footer.jsx'
@@ -12,6 +13,7 @@ export default function App() {
       <main>
         <Hero />
         <Modules />
+        <AIAgent />
         <Architecture />
         <GetStarted />
       </main>

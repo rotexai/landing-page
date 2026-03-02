@@ -2,10 +2,10 @@ import './Footer.css'
 
 const LINKS = {
   'Sản phẩm': [
-    { label: 'Tính năng',          href: '#features'     },
-    { label: 'Trợ lý AI',          href: '#features'     },
+    { label: 'Tính năng',          href: '#features'  },
+    { label: 'Trợ lý AI',          href: '#ai-agent'  },
     { label: 'Cách hoạt động',     href: '#how-it-works' },
-    { label: 'Câu hỏi thường gặp', href: '#faq'          },
+    { label: 'Câu hỏi thường gặp', href: '#faq'       },
   ],
   'Dịch vụ': [
     { label: 'Tư vấn triển khai',  href: '#get-started' },

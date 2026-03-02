@@ -72,6 +72,16 @@
   background: var(--bg-1);
 }
 
+.nav__link--ai {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.nav__link--ai:hover {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+
 /* ── Actions ───────────────────────────────── */
 .nav__actions {
   display: flex;
