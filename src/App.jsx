@@ -12,8 +12,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Modules />
         <AIAgent />
+        <Modules />
         <Architecture />
         <GetStarted />
       </main>

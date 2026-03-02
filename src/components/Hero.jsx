@@ -3,24 +3,24 @@ import './Hero.css'
 /* ─── CSS Dashboard Mockup ──────────────────────── */
 function DashboardMockup() {
   const navItems = [
-    { label: 'Tổng quan',   active: true,  color: 'var(--feat-dashboard)' },
-    { label: 'Kho hàng',    active: false, color: 'var(--feat-inventory)' },
-    { label: 'Tài liệu',    active: false, color: 'var(--feat-storage)'   },
-    { label: 'Hoạt động',   active: false, color: 'var(--feat-activity)'  },
-    { label: 'Nhóm',        active: false, color: 'var(--feat-access)'    },
+    { label: 'Tổng quan',  active: true,  color: 'var(--feat-dashboard)' },
+    { label: 'Kho hàng',   active: false, color: 'var(--feat-inventory)' },
+    { label: 'Tài liệu',   active: false, color: 'var(--feat-storage)'   },
+    { label: 'Hoạt động',  active: false, color: 'var(--feat-activity)'  },
+    { label: 'Nhóm',       active: false, color: 'var(--feat-access)'    },
+    { label: 'Trợ lý AI',  active: false, color: 'var(--teal)'           },
   ]
 
   const stats = [
-    { label: 'Mặt hàng tồn kho', value: '1.247', trend: '+12%',    color: 'var(--feat-inventory)' },
-    { label: 'Tài liệu lưu trữ', value: '328',   trend: '+5',      color: 'var(--feat-storage)'   },
-    { label: 'Thành viên nhóm',  value: '14',    trend: '2 mới',   color: 'var(--feat-access)'    },
+    { label: 'Mặt hàng tồn kho', value: '1.247', trend: '+12%',  color: 'var(--feat-inventory)' },
+    { label: 'Tài liệu lưu trữ', value: '328',   trend: '+5',    color: 'var(--feat-storage)'   },
+    { label: 'Thành viên nhóm',  value: '14',    trend: '2 mới', color: 'var(--feat-access)'    },
   ]
 
   const activity = [
-    { text: 'Cập nhật kho hàng',    sub: 'Widget A · Nhập thêm 50 đơn vị', time: '2 phút',   color: 'var(--feat-inventory)' },
-    { text: 'Tải tài liệu lên',     sub: 'HopDong_Thang3.pdf',              time: '14 phút',  color: 'var(--feat-storage)'   },
-    { text: 'Thành viên mới',        sub: 'Lan đã tham gia nhóm',           time: '1 giờ',    color: 'var(--feat-access)'    },
-    { text: 'Cảnh báo sắp hết hàng', sub: 'Widget B · Còn 3 đơn vị',       time: '3 giờ',    color: 'var(--feat-inventory)' },
+    { text: 'Cập nhật kho hàng',     sub: 'Widget A · Nhập thêm 50 đơn vị', time: '2 phút',  color: 'var(--feat-inventory)' },
+    { text: 'Tải tài liệu lên',      sub: 'HopDong_Thang3.pdf',              time: '14 phút', color: 'var(--feat-storage)'   },
+    { text: 'Cảnh báo sắp hết hàng', sub: 'Widget B · Còn 3 đơn vị',       time: '3 giờ',   color: 'var(--feat-inventory)' },
   ]
 
   return (
@@ -34,7 +34,7 @@ function DashboardMockup() {
         </div>
         <div className="mockup__url" aria-hidden="true">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          app.rotexai.com/dashboard
+          app.rotexai.com
         </div>
       </div>
 
@@ -42,9 +42,7 @@ function DashboardMockup() {
       <div className="mockup__app">
         {/* Sidebar */}
         <div className="mockup__sidebar" aria-hidden="true">
-          <div className="mockup__brand-sm">
-            <span>R</span>
-          </div>
+          <div className="mockup__brand-sm"><span>R</span></div>
           <nav className="mockup__nav">
             {navItems.map(item => (
               <div
@@ -62,7 +60,6 @@ function DashboardMockup() {
 
         {/* Main content */}
         <div className="mockup__main">
-          {/* Header */}
           <div className="mockup__main-header" aria-hidden="true">
             <div className="mockup__greeting">
               <div className="mockup__greeting-line1" />
@@ -71,7 +68,6 @@ function DashboardMockup() {
             <div className="mockup__avatar">LA</div>
           </div>
 
-          {/* Stats */}
           <div className="mockup__stats" aria-hidden="true">
             {stats.map(s => (
               <div key={s.label} className="mockup__stat" style={{ '--stat-color': s.color }}>
@@ -82,7 +78,6 @@ function DashboardMockup() {
             ))}
           </div>
 
-          {/* Activity */}
           <div className="mockup__section-title" aria-hidden="true">Hoạt động gần đây</div>
           <div className="mockup__activity" aria-hidden="true">
             {activity.map((a, i) => (
@@ -95,6 +90,19 @@ function DashboardMockup() {
                 <span className="mockup__activity-time">{a.time}</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* AI overlay popup */}
+        <div className="mockup__ai-popup" aria-hidden="true">
+          <div className="mockup__ai-header">
+            <div className="mockup__ai-dot" />
+            <span>Trợ lý AI</span>
+          </div>
+          <p className="mockup__ai-text">3 mặt hàng sắp hết. Tôi có thể tạo đơn nhập tự động không?</p>
+          <div className="mockup__ai-btns">
+            <span className="mockup__ai-btn mockup__ai-btn--yes">Tạo đơn</span>
+            <span className="mockup__ai-btn">Bỏ qua</span>
           </div>
         </div>
       </div>
@@ -113,18 +121,18 @@ export default function Hero() {
         <div className="hero__left">
           <div className="hero__eyebrow">
             <span className="hero__eyebrow-dot" aria-hidden="true" />
-            Giải pháp ERP dành riêng cho doanh nghiệp vừa và nhỏ
+            Trợ lý AI tích hợp · ERP cho doanh nghiệp Việt Nam
           </div>
 
           <h1 className="hero__h1">
-            Quản lý toàn bộ doanh nghiệp<br />
-            từ <em>một nơi duy nhất.</em>
+            Nói với AI —<br />
+            <em>mọi việc được xử lý ngay.</em>
           </h1>
 
           <p className="hero__sub">
-            RotexAI ERP tích hợp AI giúp đơn giản hoá vận hành — từ kho hàng,
-            tài liệu đến quản lý nhóm — trong một hệ thống dễ dùng, bảo mật và
-            được hỗ trợ chuyên nghiệp.
+            RotexAI ERP tích hợp trợ lý AI để đơn giản hoá toàn bộ vận hành.
+            Hỏi để tra cứu, ra lệnh để thực hiện — kho hàng, tài liệu, nhóm
+            đều trong một hệ thống duy nhất.
           </p>
 
           <div className="hero__actions">
@@ -134,17 +142,16 @@ export default function Hero() {
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </a>
-            <a href="#how-it-works" className="btn btn--outline">
-              Xem cách hoạt động
+            <a href="#ai-agent" className="btn btn--outline">
+              Xem AI hoạt động
             </a>
           </div>
 
-          {/* Trust signals */}
           <div className="hero__trust">
             {[
-              { icon: '🔒', text: 'Dữ liệu lưu trên máy chủ riêng của bạn' },
-              { icon: '🤖', text: 'Tích hợp AI hỗ trợ vận hành'             },
-              { icon: '🛡️', text: 'Bảo mật và hỗ trợ cấp doanh nghiệp'     },
+              { icon: '🤖', text: 'Trợ lý AI xử lý tác vụ thay bạn'     },
+              { icon: '🔒', text: 'Dữ liệu lưu trên máy chủ riêng'       },
+              { icon: '🛡️', text: 'Bảo mật và hỗ trợ cấp doanh nghiệp'  },
             ].map(t => (
               <div key={t.text} className="hero__trust-item">
                 <span aria-hidden="true">{t.icon}</span>
@@ -154,7 +161,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right — Dashboard */}
+        {/* Right — Dashboard with AI overlay */}
         <div className="hero__right">
           <DashboardMockup />
         </div>
