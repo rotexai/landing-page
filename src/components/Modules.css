@@ -5,7 +5,7 @@
 .features__bg {
   position: absolute;
   inset: 0;
-  background: var(--bg-1);
+  background: rgba(16, 12, 21, 0.68);
   z-index: -1;
 }
 
@@ -25,7 +25,7 @@
   --feat-color: var(--amber);
   --feat-soft:  var(--amber-soft);
 
-  background: var(--surface);
+  background: rgba(255,255,255,0.035);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 28px 26px 22px;
@@ -33,11 +33,11 @@
   flex-direction: column;
   gap: 14px;
   transition: box-shadow 0.25s ease, transform 0.25s var(--ease-out), border-color 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .feat-card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--feat-color) 46%, transparent);
   transform: translateY(-3px);
   border-color: var(--border);
 }
@@ -68,6 +68,15 @@
 /* Body */
 .feat-card__body {
   flex: 1;
+}
+
+.capability-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--feat-color);
 }
 
 .feat-card__name {
@@ -101,7 +110,7 @@
 
 /* ── "And more" card ──────────────────────── */
 .feat-card--more {
-  background: var(--bg-1);
+  background: rgba(255,154,92,0.055);
   border-style: dashed;
   border-color: var(--border);
   justify-content: center;
@@ -111,9 +120,9 @@
 }
 
 .feat-card--more:hover {
-  background: var(--bg-1);
+  background: rgba(255,154,92,0.075);
   transform: none;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .feat-card__more-text {
