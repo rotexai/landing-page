@@ -2,16 +2,16 @@ import './Footer.css'
 
 const LINKS = {
   'Sản phẩm': [
-    { label: 'Tính năng',          href: '#features'  },
-    { label: 'Rox AI',              href: '#ai-agent'  },
     { label: 'Cách hoạt động',     href: '#how-it-works' },
+    { label: 'Logic minh bạch',    href: '#transparency' },
+    { label: 'Ứng dụng riêng',     href: '#custom-apps' },
+    { label: 'So sánh',            href: '#comparison' },
     { label: 'Câu hỏi thường gặp', href: '#faq'       },
   ],
-  'Dịch vụ': [
-    { label: 'Tư vấn triển khai',  href: '#get-started' },
-    { label: 'Đào tạo nhân viên',  href: '#get-started' },
-    { label: 'Hỗ trợ kỹ thuật',   href: '#get-started' },
-    { label: 'Tuỳ chỉnh hệ thống', href: '#get-started' },
+  'Bắt đầu': [
+    { label: 'Mở trình xây dựng',  href: 'https://portal.rotexai.com' },
+    { label: 'Đăng nhập',          href: 'https://portal.rotexai.com' },
+    { label: 'Liên hệ',            href: 'mailto:contact@rotexai.com' },
   ],
   'Công ty': [
     { label: 'Về chúng tôi',       href: '#' },
@@ -32,14 +32,13 @@ export default function Footer() {
         <div className="footer__inner">
           {/* Brand */}
           <div className="footer__brand">
-            <a href="/" className="footer__logo" aria-label="Trang chủ RotexAI ERP">
+            <a href="/" className="footer__logo" aria-label="Trang chủ RotexAI">
               <span className="footer__logo-r">Rotex</span><span className="footer__logo-ai">AI</span>
-              <span className="footer__logo-sub">ERP</span>
             </a>
 
             <p className="footer__tagline">
-              Giải pháp quản trị doanh nghiệp tích hợp AI —
-              đơn giản, bảo mật và được hỗ trợ chuyên nghiệp.
+              Biến công việc lặp lại thành workflow minh bạch
+              và ứng dụng web phù hợp với đội ngũ của bạn.
             </p>
 
             <a href="mailto:contact@rotexai.com" className="footer__contact-badge">
@@ -70,7 +69,7 @@ export default function Footer() {
 
         <div className="footer__bottom">
           <p className="footer__copy">© {year} RotexAI. Bản quyền thuộc về RotexAI. Mọi quyền được bảo lưu.</p>
-          <p className="footer__love">Được xây dựng cho doanh nghiệp Việt Nam 🇻🇳</p>
+          <p className="footer__love">AI xây dựng · Workflow vận hành</p>
         </div>
       </div>
     </footer>

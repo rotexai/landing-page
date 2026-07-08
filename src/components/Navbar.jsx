@@ -16,21 +16,22 @@ export default function Navbar() {
   return (
     <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__inner container">
-        <a href="/" className="nav__logo" aria-label="Trang chủ RotexAI ERP">
+        <a href="/" className="nav__logo" aria-label="Trang chủ RotexAI">
           <span className="nav__logo-r">Rotex</span><span className="nav__logo-ai">AI</span>
         </a>
 
         <div className={`nav__links ${menuOpen ? 'nav__links--open' : ''}`}>
-          <a href="#features"     className="nav__link" onClick={close}>Tính năng</a>
-          <a href="#ai-agent"    className="nav__link nav__link--ai" onClick={close}>Rox AI</a>
           <a href="#how-it-works" className="nav__link" onClick={close}>Cách hoạt động</a>
+          <a href="#transparency" className="nav__link" onClick={close}>Minh bạch</a>
+          <a href="#custom-apps" className="nav__link nav__link--ai" onClick={close}>Ứng dụng riêng</a>
+          <a href="#comparison" className="nav__link" onClick={close}>So sánh</a>
           <a href="#faq"          className="nav__link" onClick={close}>Câu hỏi thường gặp</a>
           <a href="#get-started"  className="nav__link" onClick={close}>Liên hệ</a>
         </div>
 
         <div className="nav__actions">
-          <a href="#" className="nav__login">Đăng nhập</a>
-          <a href="#get-started" className="btn btn--primary nav__cta">Đặt lịch demo</a>
+          <a href="https://portal.rotexai.com" className="nav__login">Đăng nhập</a>
+          <a href="https://portal.rotexai.com" className="btn btn--primary nav__cta">Bắt đầu xây dựng</a>
         </div>
 
         <button
