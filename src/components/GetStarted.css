@@ -9,8 +9,10 @@
   position: relative;
   border-radius: 20px;
   border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-lg);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-highlight), var(--shadow-lg);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -21,8 +23,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(193, 100, 25, 0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 80% 20%, rgba(13, 115, 119, 0.04) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(255, 154, 92, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 48% 68% at 84% 18%, rgba(233, 75, 155, 0.14) 0%, transparent 58%);
   pointer-events: none;
 }
 
@@ -71,7 +73,7 @@
   padding: 36px 40px 36px 32px;
   display: flex;
   align-items: center;
-  background: var(--bg-1);
+  background: rgba(255,255,255,0.025);
   border-left: 1px solid var(--border-light);
 }
 
@@ -83,19 +85,20 @@
 }
 
 .gs__vis-item {
-  background: var(--surface);
+  background: rgba(255,255,255,0.045);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 14px 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .gs__vis-item:hover {
-  box-shadow: var(--shadow-md);
+  border-color: rgba(255,154,92,0.36);
+  box-shadow: 0 0 0 1px rgba(255,154,92,0.1);
   transform: translateY(-2px);
 }
 
@@ -121,7 +124,7 @@
 
 /* ── Developer note ─────────────────────────── */
 .gs__for-devs {
-  background: var(--bg-1);
+  background: rgba(255,255,255,0.025);
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
   padding: 20px 24px;
@@ -152,7 +155,7 @@
   font-size: 12.5px;
   font-weight: 500;
   color: var(--text-2);
-  background: var(--surface);
+  background: rgba(255,255,255,0.035);
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 5px 12px;

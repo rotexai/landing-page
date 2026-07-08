@@ -3,87 +3,34 @@ import './GetStarted.css'
 
 export default function GetStarted() {
   const sectionRef = useScrollReveal({ stagger: 100, threshold: 0.08 })
-
   return (
-    <section className="gs section" id="get-started">
-      <div className="container">
-        <div className="gs__inner" ref={sectionRef}>
-          {/* Main CTA card */}
-          <div className="gs__card" data-reveal>
-            <div className="gs__card-bg" aria-hidden="true" />
-
-            <div className="gs__card-content">
-              <span className="section-eyebrow">Liên hệ tư vấn</span>
-              <h2 className="gs__title">
-                Sẵn sàng nâng cấp<br />
-                cách vận hành doanh nghiệp?
-              </h2>
-              <p className="gs__sub">
-                Đội ngũ của chúng tôi sẽ tư vấn giải pháp phù hợp với quy mô
-                và đặc thù của doanh nghiệp bạn, sau đó hỗ trợ triển khai
-                từ đầu đến cuối.
-              </p>
-
-              <div className="gs__actions">
-                <a href="mailto:contact@rotexai.com" className="btn btn--primary">
-                  Đặt lịch demo miễn phí
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </a>
-                <a href="mailto:contact@rotexai.com" className="btn btn--outline">
-                  Gửi yêu cầu tư vấn
-                </a>
-              </div>
-
-              <p className="gs__note">
-                Phản hồi trong vòng 1 ngày làm việc · Không ràng buộc hợp đồng ngay
-              </p>
+    <section className="gs section" id="get-started" aria-labelledby="start-title">
+      <div className="container"><div className="gs__inner" ref={sectionRef}>
+        <div className="gs__card" data-reveal>
+          <div className="gs__card-bg" aria-hidden="true" />
+          <div className="gs__card-content">
+            <span className="section-eyebrow">Bắt đầu với một quy trình</span>
+            <h2 className="gs__title" id="start-title">Công việc nào đang được<br />lặp lại trong doanh nghiệp bạn?</h2>
+            <p className="gs__sub">Mô tả quy trình cho RotexAI. Xem AI biến nó thành workflow có thể kiểm tra, sau đó đưa đội ngũ vào một ứng dụng được tạo riêng cho công việc đó.</p>
+            <div className="gs__actions">
+              <a href="https://portal.rotexai.com" className="btn btn--primary">Bắt đầu xây dựng <span aria-hidden="true">→</span></a>
+              <a href="mailto:contact@rotexai.com" className="btn btn--outline">Trao đổi với chúng tôi</a>
             </div>
-
-            <div className="gs__card-visual" aria-hidden="true">
-              <div className="gs__vis-grid">
-                {[
-                  { icon: '📦', label: 'Kho hàng',         val: 'Theo dõi tức thời'  },
-                  { icon: '📁', label: 'Tài liệu',          val: 'Lưu trữ tập trung'  },
-                  { icon: '🤖', label: 'Rox AI',             val: 'Hỗ trợ 24/7'        },
-                  { icon: '👥', label: 'Nhóm',              val: 'Phân quyền linh hoạt' },
-                  { icon: '🔒', label: 'Bảo mật',           val: 'Máy chủ riêng'      },
-                  { icon: '📊', label: 'Báo cáo',           val: 'Tự động hoá'         },
-                ].map(item => (
-                  <div key={item.label} className="gs__vis-item">
-                    <span className="gs__vis-icon">{item.icon}</span>
-                    <span className="gs__vis-label">{item.label}</span>
-                    <span className="gs__vis-val">{item.val}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <p className="gs__note">Bắt đầu từ quy trình thực tế · Xem logic trước khi phát hành</p>
           </div>
-
-          {/* Enterprise badges */}
-          <div className="gs__for-devs" data-reveal>
-            <div className="gs__devs-label">Cam kết doanh nghiệp</div>
-            <div className="gs__devs-chips">
-              {[
-                { icon: '🛡️', text: 'Bảo mật dữ liệu'       },
-                { icon: '🔧', text: 'Tuỳ chỉnh theo yêu cầu' },
-                { icon: '🚀', text: 'Triển khai nhanh'        },
-                { icon: '📞', text: 'Hỗ trợ kỹ thuật'        },
-                { icon: '📈', text: 'Mở rộng dễ dàng'        },
-              ].map(c => (
-                <span key={c.text} className="gs__chip">
-                  <span aria-hidden="true">{c.icon}</span>
-                  {c.text}
-                </span>
-              ))}
-            </div>
-            <a href="mailto:contact@rotexai.com" className="gs__devs-link">
-              Liên hệ ngay: contact@rotexai.com →
-            </a>
-          </div>
+          <div className="gs__card-visual" aria-hidden="true"><div className="gs__vis-grid">
+            {[
+              ['01', 'Mô tả', 'Nói bằng ngôn ngữ tự nhiên'], ['02', 'Tạo', 'Workflow và dữ liệu'], ['03', 'Kiểm tra', 'Logic và kết quả'],
+              ['04', 'Giao diện', 'Ứng dụng theo nghiệp vụ'], ['05', 'Phát hành', 'Phiên bản đã duyệt'], ['06', 'Vận hành', 'Chạy lại ổn định'],
+            ].map(([icon, label, val]) => <div className="gs__vis-item" key={label}><span className="gs__vis-icon">{icon}</span><span className="gs__vis-label">{label}</span><span className="gs__vis-val">{val}</span></div>)}
+          </div></div>
         </div>
-      </div>
+        <div className="gs__for-devs" data-reveal>
+          <div className="gs__devs-label">Được thiết kế để bạn giữ quyền kiểm soát</div>
+          <div className="gs__devs-chips">{['Logic minh bạch', 'Dữ liệu có kiểu', 'Kiểm thử trước', 'Phiên bản rõ ràng', 'Self-host'].map((text) => <span className="gs__chip" key={text}>✓ {text}</span>)}</div>
+          <a href="mailto:contact@rotexai.com" className="gs__devs-link">contact@rotexai.com →</a>
+        </div>
+      </div></div>
     </section>
   )
 }
