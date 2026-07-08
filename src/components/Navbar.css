@@ -30,7 +30,7 @@
   align-items: baseline;
   text-decoration: none;
   flex-shrink: 0;
-  margin-right: 16px;
+  margin-right: 10px;
 }
 
 .nav__logo-r {
@@ -58,10 +58,11 @@
 }
 
 .nav__link {
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
-  padding: 6px 12px;
+  padding: 6px 9px;
+  white-space: nowrap;
   border-radius: 8px;
   transition: color var(--t), background var(--t);
   text-decoration: none;
@@ -91,10 +92,11 @@
 }
 
 .nav__login {
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-2);
-  padding: 8px 14px;
+  padding: 8px 10px;
+  white-space: nowrap;
   border-radius: 8px;
   transition: color var(--t), background var(--t);
 }
@@ -105,8 +107,8 @@
 }
 
 .nav__cta {
-  font-size: 14px !important;
-  padding: 9px 20px !important;
+  font-size: 13px !important;
+  padding: 9px 16px !important;
 }
 
 /* ── Mobile Toggle ─────────────────────────── */
