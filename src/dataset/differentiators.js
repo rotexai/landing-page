@@ -1,38 +1,38 @@
-import { EyeOff, FolderKanban, ShieldCheck, Wrench, Gauge } from 'lucide-react';
+import { Gauge, GitMerge, ShieldCheck, Sparkles, Users } from 'lucide-react';
 
 export const differentiators = [
     {
         id: 1,
-        title: "Not A Black Box",
-        description: "You can see and validate the workflow logic behind the generated website, not just the finished output.",
-        icon: EyeOff,
+        title: "Capability-Based Matching",
+        description: "Match work to real capabilities and expected outcomes instead of relying only on resumes, keywords, or feature lists.",
+        icon: Sparkles,
         color: "text-amber-500"
     },
     {
         id: 2,
-        title: "Workspace-Native",
-        description: "Manage many projects at once without mixing operational context between them.",
-        icon: FolderKanban,
+        title: "Human-Agent Team Recommendations",
+        description: "Create combinations of human expertise and AI capability based on each task's objectives, budget, and risk level.",
+        icon: Users,
         color: "text-blue-400"
     },
     {
         id: 3,
-        title: "Built For Trust",
-        description: "Workflow visibility makes AI output easier to inspect, explain, and improve.",
+        title: "Unified Workforce Governance",
+        description: "Manage employees, freelancers, service providers, and AI agents through one system of permissions and approvals.",
         icon: ShieldCheck,
         color: "text-green-500"
     },
     {
         id: 4,
-        title: "Operationally Practical",
-        description: "Supports debugging, validation, and repeatable execution instead of only one-time generation.",
-        icon: Wrench,
+        title: "Controls Built In From The Start",
+        description: "Define action limits, access permissions, review checkpoints, and human responsibilities before agents enter workflows.",
+        icon: GitMerge,
         color: "text-purple-400"
     },
     {
         id: 5,
-        title: "Cost-Conscious AI Model",
-        description: "AI is used intentionally, not wasted on routine process logic that deterministic workflows handle better.",
+        title: "Performance Based On Outcomes",
+        description: "Compare people and AI agents by output quality, reliability, cost, delivery time, and business impact.",
         icon: Gauge,
         color: "text-red-400"
     }

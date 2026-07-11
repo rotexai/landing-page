@@ -2,31 +2,31 @@ export const howItWorks = [
     {
         id: 1,
         step: "01",
-        title: "Describe Your Idea",
-        description: "Tell RotexAI what you want to build in plain language, no blank-page starting point required."
+        title: "Describe The Outcome You Want",
+        description: "Enter a task, project, or business objective in natural language. Add deadlines, budgets, quality standards, compliance requirements, and risk levels."
     },
     {
         id: 2,
         step: "02",
-        title: "AI Generates The Website",
-        description: "RotexAI builds a complete, working website inside its own dedicated workspace."
+        title: "Analyze The Required Capabilities",
+        description: "RotexAI breaks the work into tasks and identifies the skills, tools, reasoning abilities, permissions, and oversight needed."
     },
     {
         id: 3,
         step: "03",
-        title: "Inspect The Workflow",
-        description: "Every step the AI took is laid out as a workflow you can open, read, and understand."
+        title: "Recommend The Right Resources",
+        description: "The platform compares people, AI agents, and hybrid teams based on capability, cost, speed, reliability, and availability."
     },
     {
         id: 4,
         step: "04",
-        title: "Validate And Debug",
-        description: "Trace the logic, catch mistakes, and fix the exact step that broke instead of the whole build."
+        title: "Coordinate Execution",
+        description: "Assign responsibilities, configure workflows, manage handoffs, and add review or approval steps where they are needed."
     },
     {
         id: 5,
         step: "05",
-        title: "Ship With Confidence",
-        description: "Deploy knowing exactly how your site works under the hood, not just that it happened to run."
+        title: "Measure And Improve",
+        description: "Track outcomes, compare resource strategies, and use performance data to improve future workforce decisions."
     }
 ];

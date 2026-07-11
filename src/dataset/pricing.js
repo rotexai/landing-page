@@ -2,45 +2,54 @@ export const pricing = [
     {
         id: 1,
         name: "Starter",
-        tagline: "For trying RotexAI on your first project.",
-        priceLabel: "Free to start",
+        tagline: "For teams beginning to explore Human-AI collaboration.",
+        priceLabel: "Start for free",
         features: [
-            "1 active workspace",
-            "AI website generation",
-            "Inspect generated workflows",
+            "1 workspace",
+            "Human talent and AI agent discovery",
+            "Task requirement analysis",
+            "Human, AI, and hybrid recommendations",
+            "Basic performance tracking",
             "Community support"
         ],
-        ctaLabel: "Get Started",
+        ctaLabel: "Start For Free",
         ctaHref: "https://portal.rotexai.com",
         featured: false
     },
     {
         id: 2,
         name: "Pro",
-        tagline: "For builders running multiple projects.",
+        tagline: "For teams managing multiple workflows.",
         priceLabel: "For growing teams",
         features: [
-            "Multiple parallel workspaces",
-            "Full workflow debugging tools",
-            "Priority AI generation",
+            "Multiple workspaces",
+            "Advanced Human-Agent recommendations",
+            "Capability-based matching",
+            "Workflow and handoff coordination",
+            "Approval and governance processes",
+            "AI agent utilization analytics",
+            "Workforce productivity dashboard",
             "Priority support"
         ],
-        ctaLabel: "Get Started",
+        ctaLabel: "Try Pro",
         ctaHref: "https://portal.rotexai.com",
         featured: true
     },
     {
         id: 3,
         name: "Enterprise",
-        tagline: "For agencies and organizations at scale.",
-        priceLabel: "Contact us",
+        tagline: "For organizations deploying and governing their workforce at scale.",
+        priceLabel: "Custom plan",
         features: [
             "Unlimited workspaces",
-            "Custom workflow validation rules",
-            "Dedicated support",
-            "Custom onboarding"
+            "Private enterprise marketplace",
+            "Custom permissions and governance policies",
+            "Workforce planning and forecasting",
+            "Custom performance metrics",
+            "Private AI agent publishing",
+            "Dedicated implementation support"
         ],
-        ctaLabel: "Contact Us",
+        ctaLabel: "Book A Consultation",
         ctaHref: "https://portal.rotexai.com",
         featured: false
     }
