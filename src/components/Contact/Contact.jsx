@@ -1,58 +1,38 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import React from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import SectionIcon from '../SectionIcon';
 
 const Contact = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".contact-content", {
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, []);
-
     return (
-        <section id="cta" ref={containerRef} className="py-32 px-6 flex flex-col items-center justify-center bg-white relative overflow-hidden">
+        <section id="cta" className="py-32 px-6 flex flex-col items-center justify-center bg-white relative overflow-hidden">
             {/* Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-100 via-white to-white pointer-events-none"></div>
 
             <div className="contact-content max-w-3xl mx-auto text-center relative z-10">
-                <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 mb-8 font-['Poppins'] tracking-tight">
-                    Stop Trusting The Output. <br />
-                    <span className="text-amber-500">Start Reading The Workflow.</span>
+                <SectionIcon icon={Sparkles} />
+                <h2 data-reveal className="text-4xl md:text-6xl font-bold text-zinc-900 mb-8 font-['Poppins'] tracking-tight">
+                    Stop Managing Humans And AI <br />
+                    <span className="text-amber-500">In Separate Systems.</span>
                 </h2>
 
-                <p className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto">
-                    RotexAI exposes the workflow logic behind every AI-built website across multiple workspaces, so you can validate, debug, and trust what was built, not just the website it produced.
+                <p data-reveal style={{ '--reveal-delay': '110ms' }} className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto">
+                    Build one unified workforce. Find the right capabilities, assign every task to the right resource, maintain control through execution, and measure results in one system.
                 </p>
 
                 <a
+                    data-reveal
+                    style={{ '--reveal-delay': '220ms' }}
                     href="https://portal.rotexai.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 text-white rounded-full font-bold text-lg hover:bg-amber-500 transition-colors duration-300 group"
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 text-white rounded-full font-bold text-lg shadow-[0_18px_44px_rgba(24,24,27,0.16)] transition-all duration-300 hover:-translate-y-1 hover:bg-amber-500 hover:text-zinc-900 hover:shadow-[0_22px_54px_rgba(245,158,11,0.28)] group"
                 >
-                    Try RotexAI
-                    <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    Create a Free Workspace
+                    <ArrowRight className="transition-transform duration-300 group-hover:translate-x-1.5" />
                 </a>
 
-                <div className="mt-24 text-sm text-zinc-400">
-                    <p>© 2026 RotexAI. All rights reserved.</p>
+                <div data-reveal style={{ '--reveal-delay': '330ms' }} className="mt-24 text-sm text-zinc-400">
+                    <p>© 2026 RotexAI Human-AgentOS. All rights reserved.</p>
                 </div>
             </div>
         </section>
