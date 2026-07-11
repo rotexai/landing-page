@@ -1,23 +1,73 @@
+import { useEffect, useRef } from 'react';
 import './App.css'
 import Navbar from "./components/Navbar";
 import FloatingLines from './components/FloatingLines';
 import useWindowSize from './hooks/useWindowSize';
-import SplitText from './components/SplitText';
 import TextType from './components/TextType';
 import StarBorder from './components/StarBorder';
 import ValueProps from './components/ValueProps/ValueProps';
 import HowItWorks from './components/HowItWorks/HowItWorks';
 import Differentiators from './components/Differentiators/Differentiators';
 import Pricing from './components/Pricing/Pricing';
+import WorkflowProof from './components/WorkflowProof/WorkflowProof';
 import Contact from './components/Contact/Contact';
 
 function App() {
+  const storyRef = useRef(null);
   const { width } = useWindowSize();
   const isMobile = width < 768;
 
-  const handleAnimationComplete = () => {
-    console.log('All letters have animated!');
-  };
+  useEffect(() => {
+    const revealElements = document.querySelectorAll('[data-reveal]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.04,
+      rootMargin: '0px 0px 18% 0px',
+    });
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const story = storyRef.current;
+    if (!story) return undefined;
+
+    let frame = 0;
+    const clamp = (value) => Math.min(1, Math.max(0, value));
+
+    const updateStory = () => {
+      frame = 0;
+      const rect = story.getBoundingClientRect();
+      const viewport = window.innerHeight || 1;
+      const progress = clamp((0 - rect.top) / viewport);
+
+      story.style.setProperty('--story-progress', progress.toFixed(3));
+    };
+
+    const requestUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateStory);
+    };
+
+    updateStory();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, []);
 
   return (
     <div className="relative w-full bg-white text-zinc-900">
@@ -34,57 +84,56 @@ function App() {
 
       <Navbar />
 
-      {/* Hero Section */}
-      <div className="h-screen w-full relative overflow-hidden z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4 w-full">
-          <SplitText
-            text="Understand Your Website"
-            className="text-4xl md:text-6xl font-bold text-center font-['Poppins']"
-            delay={100}
-            duration={0.6}
-            ease="power3.out"
-            splitType="chars"
-            from={{ opacity: 0, y: 40 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-100px"
-            textAlign="center"
-            onLetterAnimationComplete={handleAnimationComplete}
-          />
-          <TextType
-            text={[
-              "Validate the logic behind the app.",
-              "Debug workflows instead of guessing.",
-              "AI for creation. Workflows for control.",
-              "Manage every workflow in its own workspace."
-            ]}
-            typingSpeed={75}
-            pauseDuration={1500}
-            showCursor={true}
-            cursorCharacter="|"
-            className="text-xl md:text-2xl text-zinc-600"
-          />
+      <div ref={storyRef} className="workforce-story relative z-10">
+        {/* Hero Section */}
+        <div className="story-hero-section h-screen w-full relative overflow-hidden">
+          <div className="story-hero-copy absolute z-50 flex w-full flex-col items-center gap-4">
+            <h1
+              data-reveal
+              className="px-4 text-center font-['Poppins'] text-4xl font-bold leading-[1.05] tracking-tight text-zinc-950 sm:text-5xl md:text-6xl lg:text-7xl"
+            >
+              <span className="block">Assign Every Task To</span>
+              <span className="block">
+                The <span className="text-amber-500">Right Person</span> Or{' '}
+                <span className="text-purple-400">AI Agent</span>
+              </span>
+            </h1>
+            <TextType
+              text={[
+                "Discover human talent, AI agents, and hybrid teams.",
+                "Compare cost, speed, reliability, and risk.",
+                "Set permissions and approval checkpoints before work begins.",
+                "Measure workforce performance in one system."
+              ]}
+              typingSpeed={75}
+              pauseDuration={1500}
+              showCursor={true}
+              cursorCharacter="|"
+              className="text-xl md:text-2xl text-zinc-600"
+            />
+          </div>
+
+          <div id="star-border-btn" className="story-hero-cta absolute z-50">
+            <StarBorder
+              as="a"
+              href="https://portal.rotexai.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="custom-class"
+              color="magenta"
+              speed="5s"
+            >
+              Create a Free Workspace
+            </StarBorder>
+          </div>
         </div>
 
-        <div id="star-border-btn" className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50">
-          <StarBorder
-            as="a"
-            href="https://portal.rotexai.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="custom-class"
-            color="magenta"
-            speed="5s"
-          >
-            Try RotexAI
-          </StarBorder>
-        </div>
+
+        <ValueProps />
       </div>
-
-
-      <ValueProps />
       <HowItWorks />
       <Differentiators />
+      <WorkflowProof />
       <Pricing />
       <Contact />
     </div>

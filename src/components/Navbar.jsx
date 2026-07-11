@@ -7,9 +7,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const NAV_ITEMS = [
-    { id: 'value-props', label: 'Value Props' },
+    { id: 'value-props', label: 'Capabilities' },
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'differentiators', label: 'Why RotexAI' },
+    { id: 'workflow-proof', label: 'Marketplace' },
     { id: 'pricing', label: 'Pricing' },
 ];
 
