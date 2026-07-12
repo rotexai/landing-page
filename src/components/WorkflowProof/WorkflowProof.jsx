@@ -25,36 +25,27 @@ const marketplaceItems = [
     },
 ];
 
-const faqs = [
-    ['What is Human-AgentOS?', 'Human-AgentOS is a Human-AI workforce management platform that helps organizations discover, evaluate, assign, coordinate, and measure both people and AI agents in one system.'],
-    ['How does the platform decide who should perform a task?', 'Human-AgentOS analyzes capabilities, complexity, cost, deadline, risk, and the level of human judgment involved, then recommends the right person, AI agent, or hybrid team.'],
-    ['Can Human-AgentOS manage both people and AI agents?', 'Yes. It supports employees, freelancers, service providers, and AI agents in the same workspace while maintaining the right workflows, permissions, and metrics for each resource.'],
-    ['When is human oversight required?', 'Organizations can require human review or approval based on risk level, sensitive data, compliance needs, financial impact, or agent reliability.'],
-    ['How are AI agents evaluated?', 'AI agents can be assessed by capability, cost, response time, reliability, integrations, governance requirements, and real-world outcomes.'],
-    ['Does Human-AgentOS integrate with existing systems?', 'Yes. The platform can connect with HR, project management, communication, data, and business applications.'],
-];
-
-const MarketplaceIllustration = () => (
+const MarketplaceIllustration = ({ copy }) => (
     <div data-reveal className="marketplace-panel relative mx-auto mb-12 max-w-5xl overflow-hidden rounded-[2rem] border border-white/95 bg-white/[0.06] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.34),0_34px_100px_rgba(24,24,27,0.14)] ring-1 ring-white/80 backdrop-blur-[28px] backdrop-saturate-150 before:absolute before:inset-0 before:pointer-events-none before:bg-[linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.09)_38%,rgba(255,255,255,0.01)_74%)] before:opacity-70 after:absolute after:inset-px after:pointer-events-none after:rounded-[31px] after:border after:border-white/85 md:p-5">
-        <div className="relative z-10 grid gap-4 rounded-[1.6rem] border border-white/80 bg-white/[0.16] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)] backdrop-blur-2xl lg:grid-cols-[1.16fr_0.84fr] lg:p-5">
-            <div className="marketplace-match-card rounded-[1.35rem] border border-white/85 bg-white/[0.28] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_18px_48px_rgba(24,24,27,0.08)] backdrop-blur-2xl">
+        <div className="relative z-10 grid gap-4 rounded-[1.6rem] bg-white/[0.16] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)] backdrop-blur-2xl lg:grid-cols-[1.16fr_0.84fr] lg:gap-0 lg:p-5">
+            <div className="marketplace-match-card rounded-[1.35rem] border border-white/85 bg-white/[0.28] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_18px_48px_rgba(24,24,27,0.08)] backdrop-blur-2xl lg:rounded-r-none lg:border-r-0">
                 <div className="mb-5 flex items-start justify-between gap-4">
                     <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-500">Marketplace Match</p>
-                        <h3 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900">Find the best capability mix</h3>
+                        <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-500">{copy.eyebrow}</p>
+                        <h3 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{copy.title}</h3>
                     </div>
                     <div className="marketplace-badge hidden rounded-2xl border border-amber-200/90 bg-amber-300/15 px-4 py-2 text-sm font-bold text-amber-600 shadow-[0_0_28px_rgba(245,158,11,0.18)] sm:block">
-                        92% fit
+                        {copy.fit}
                     </div>
                 </div>
 
                 <div className="marketplace-query mb-5 flex items-center gap-3 rounded-xl border border-white/85 bg-white/55 px-4 py-3 text-zinc-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)]">
                     <Search size={17} className="text-amber-500" />
-                    <span className="text-sm leading-none">Launch a governed customer support workflow</span>
+                    <span className="text-sm leading-none">{copy.query}</span>
                 </div>
 
                 <div className="mb-5 flex flex-wrap gap-2">
-                    {['Compliance', 'Customer Ops', 'AI Agent', 'Human Review'].map((chip) => (
+                    {copy.chips.map((chip) => (
                         <span key={chip} className="rounded-full border border-white/85 bg-white/40 px-3 py-1 text-xs font-semibold text-zinc-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
                             {chip}
                         </span>
@@ -68,8 +59,8 @@ const MarketplaceIllustration = () => (
                                 <BriefcaseBusiness size={20} />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-zinc-900">Human Expert</p>
-                                <p className="text-xs text-zinc-500">Policy reviewer</p>
+                                <p className="text-sm font-bold text-zinc-900">{copy.resources[0][0]}</p>
+                                <p className="text-xs text-zinc-500">{copy.resources[0][1]}</p>
                             </div>
                         </div>
                         <div className="h-2 rounded-full bg-zinc-200">
@@ -83,8 +74,8 @@ const MarketplaceIllustration = () => (
                                 <Bot size={20} />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-zinc-900">AI Agent</p>
-                                <p className="text-xs text-zinc-500">Ticket classifier</p>
+                                <p className="text-sm font-bold text-zinc-900">{copy.resources[1][0]}</p>
+                                <p className="text-xs text-zinc-500">{copy.resources[1][1]}</p>
                             </div>
                         </div>
                         <div className="h-2 rounded-full bg-zinc-200">
@@ -94,14 +85,12 @@ const MarketplaceIllustration = () => (
                 </div>
             </div>
 
-            <div className="marketplace-insight-panel relative overflow-hidden rounded-[1.35rem] border border-white/85 bg-white/[0.2] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_18px_48px_rgba(24,24,27,0.08)] backdrop-blur-2xl">
+            <div className="marketplace-insight-panel relative overflow-hidden rounded-[1.35rem] border border-white/85 bg-white/[0.2] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_18px_48px_rgba(24,24,27,0.08)] backdrop-blur-2xl lg:rounded-l-none lg:border-l-0">
                 <div className="absolute -right-10 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-amber-300/10 blur-3xl" />
                 <div className="relative z-10 space-y-3">
-                    {[
-                        ['Capability', 'Language, policy, routing', Sparkles],
-                        ['Governance', 'Approval before escalation', ShieldCheck],
-                        ['Hybrid Team', 'Human + AI agent assigned', Users],
-                    ].map(([label, text, Icon], index) => (
+                    {copy.insights.map(([label, text], index) => {
+                        const Icon = [Sparkles, ShieldCheck, Users][index];
+                        return (
                         <div
                             key={label}
                             className="marketplace-side-item flex items-center justify-start gap-4 rounded-2xl border border-white/85 bg-white/42 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.95)]"
@@ -115,14 +104,15 @@ const MarketplaceIllustration = () => (
                                 <p className="text-xs text-zinc-500">{text}</p>
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>
     </div>
 );
 
-const WorkflowProof = () => {
+const WorkflowProof = ({ copy }) => {
     const sectionRef = useRef(null);
     const [openFaq, setOpenFaq] = useState(0);
 
@@ -173,19 +163,20 @@ const WorkflowProof = () => {
             <div className="relative z-10 mx-auto max-w-6xl">
                 <div data-reveal className="marketplace-heading mb-14 text-center">
                     <SectionIcon icon={Store} />
-                    <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-4 font-['Poppins'] tracking-tight">
-                        One Marketplace For <span className="text-amber-500">Human And AI Capabilities</span>
+                    <h2 className="font-['Be_Vietnam_Pro'] text-3xl md:text-5xl font-bold text-zinc-900 mb-4 tracking-tight">
+                        <span className="language-copy inline-block">{copy.title}</span> <span className="language-copy inline-block text-amber-500">{copy.accent}</span>
                     </h2>
                     <p className="text-zinc-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Access the resources your organization needs without searching across multiple disconnected platforms.
+                        {copy.description}
                     </p>
                 </div>
 
-                <MarketplaceIllustration />
+                <MarketplaceIllustration copy={copy.illustration} />
 
                 <div className="marketplace-card-grid grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
                     {marketplaceItems.map((item, index) => {
                         const Icon = item.icon;
+                        const localizedItem = copy.items[index];
 
                         return (
                             <article
@@ -197,10 +188,10 @@ const WorkflowProof = () => {
                                     <Icon size={24} />
                                 </div>
                                 <h3 className="relative z-10 text-xl font-bold text-zinc-900 mb-2 transition-colors group-hover:text-amber-500">
-                                    {item.title}
+                                    {localizedItem.title}
                                 </h3>
                                 <p className="relative z-10 text-zinc-600 leading-relaxed">
-                                    {item.description}
+                                    {localizedItem.description}
                                 </p>
                             </article>
                         );
@@ -209,14 +200,14 @@ const WorkflowProof = () => {
 
                 <div data-reveal className="mb-10 text-center">
                     <SectionIcon icon={HelpCircle} />
-                    <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-4 font-['Poppins'] tracking-tight">
-                        Frequently Asked <span className="text-amber-500">Questions</span>
+                    <h2 className="font-['Be_Vietnam_Pro'] text-3xl md:text-5xl font-bold text-zinc-900 mb-4 tracking-tight">
+                        <span className="language-copy inline-block">{copy.faqTitle}</span> <span className="language-copy inline-block text-amber-500">{copy.faqAccent}</span>
                     </h2>
                 </div>
 
                 <div data-reveal className="relative overflow-hidden rounded-3xl border border-white/95 bg-white/[0.06] p-4 md:p-6 shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.34),0_34px_100px_rgba(24,24,27,0.14)] ring-1 ring-white/80 backdrop-blur-[28px] backdrop-saturate-150 before:absolute before:inset-0 before:pointer-events-none before:bg-[linear-gradient(135deg,rgba(255,255,255,0.44),rgba(255,255,255,0.08)_38%,rgba(255,255,255,0.01)_74%)] before:opacity-70 after:absolute after:inset-px after:pointer-events-none after:rounded-[23px] after:border after:border-white/85">
                     <div className="relative z-10 flex flex-col gap-3">
-                        {faqs.map(([question, answer], index) => (
+                        {copy.faqs.map(([question, answer], index) => (
                             <article
                                 key={question}
                                 data-reveal

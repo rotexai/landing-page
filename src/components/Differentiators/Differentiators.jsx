@@ -3,39 +3,6 @@ import { ShieldCheck } from 'lucide-react';
 import { differentiators } from '../../dataset/differentiators';
 import SectionIcon from '../SectionIcon';
 
-const comparisonRows = [
-    {
-        criteria: 'Resources managed',
-        agent: 'Primarily employees and contractors',
-        workflow: 'Primarily AI agents',
-        rotexai: 'People, AI agents, service providers, and hybrid teams',
-    },
-    {
-        criteria: 'Task assignment',
-        agent: 'Manually assigned by managers',
-        workflow: 'Triggered through prompts or automations',
-        rotexai: 'Recommends the right person, agent, or Human-Agent team',
-    },
-    {
-        criteria: 'Matching method',
-        agent: 'Job titles, resumes, and keywords',
-        workflow: 'Feature lists',
-        rotexai: 'Capabilities, task requirements, and expected outcomes',
-    },
-    {
-        criteria: 'Governance',
-        agent: 'HR policies',
-        workflow: 'Separate agent permissions',
-        rotexai: 'Unified permissions, approvals, and human oversight',
-    },
-    {
-        criteria: 'Measurement',
-        agent: 'Human productivity metrics',
-        workflow: 'Technical or usage metrics',
-        rotexai: 'Cost, speed, quality, reliability, and outcomes',
-    },
-];
-
 const DifferentiatorCard = ({ title, description, icon, color, className = '', style }) => {
     const Icon = icon;
     return (
@@ -63,7 +30,9 @@ const DifferentiatorCard = ({ title, description, icon, color, className = '', s
     );
 };
 
-const Differentiators = () => {
+const Differentiators = ({ copy }) => {
+    const [criteriaHeader, workforceHeader, agentHeader, rotexHeader] = copy.tableHeaders;
+
     return (
         <section id="differentiators" className="relative overflow-hidden bg-zinc-50 px-6 py-24">
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_18%_8%,rgba(255,255,255,0.86),transparent_25rem),radial-gradient(circle_at_84%_12%,rgba(228,228,231,0.42),transparent_26rem)]"></div>
@@ -72,41 +41,40 @@ const Differentiators = () => {
                 <div data-reveal className="mb-14 text-center">
                     <SectionIcon icon={ShieldCheck} />
                     <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-purple-400">
-                        Why RotexAI
+                        {copy.label}
                     </p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4 font-['Poppins']">
-                        Understand Who Is Doing The Work, And <span className="text-purple-400">Why</span>
+                    <h2 className="font-['Be_Vietnam_Pro'] text-3xl md:text-4xl font-bold text-zinc-900 mb-4">
+                        <span className="language-copy inline-block">{copy.title}</span> <span className="language-copy inline-block text-purple-400">{copy.accent}</span>
                     </h2>
                     <p className="text-zinc-600 max-w-xl mx-auto">
-                        RotexAI manages people and AI agents as one unified workforce, with accountability across the lifecycle of work.
+                        {copy.description}
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-[0.72fr_1.28fr] gap-8 lg:gap-12 items-start">
-                    <div data-reveal className="group relative overflow-hidden rounded-3xl border border-white/95 bg-white/[0.06] p-7 shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.34),0_30px_90px_rgba(24,24,27,0.14)] ring-1 ring-white/80 backdrop-blur-[28px] backdrop-saturate-150 transition-all duration-300 hover:-translate-y-1 hover:border-amber-200/90 hover:bg-amber-300/10 hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.42),0_0_42px_rgba(245,158,11,0.18),0_36px_100px_rgba(24,24,27,0.15)] hover:ring-amber-200/70">
+                <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-12">
+                    <div data-reveal className="group relative h-full overflow-hidden rounded-3xl border border-white/95 bg-white/[0.06] p-7 shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.34),0_30px_90px_rgba(24,24,27,0.14)] ring-1 ring-white/80 backdrop-blur-[28px] backdrop-saturate-150 transition-all duration-300 hover:-translate-y-1 hover:border-amber-200/90 hover:bg-amber-300/10 hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.42),0_0_42px_rgba(245,158,11,0.18),0_36px_100px_rgba(24,24,27,0.15)] hover:ring-amber-200/70">
                         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.44),rgba(255,255,255,0.08)_38%,rgba(255,255,255,0.01)_74%)] transition-opacity duration-300 group-hover:opacity-35"></div>
                         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(251,191,36,0.22),rgba(251,191,36,0.08)_42%,rgba(255,255,255,0.01)_76%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                         <div className="absolute inset-px rounded-[23px] border border-white/85 transition-colors duration-300 group-hover:border-amber-100/90"></div>
-                        <div className="relative z-10">
-                            <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 font-['Poppins'] leading-tight transition-colors duration-300 group-hover:text-amber-500">
-                                RotexAI does more than deploy people or agents.
+                        <div className="relative z-10 flex h-full flex-col justify-center">
+                            <h3 className="font-['Be_Vietnam_Pro'] text-2xl md:text-3xl font-bold text-zinc-900 leading-tight transition-colors duration-300 group-hover:text-amber-500">
+                                {copy.featureTitle}
                             </h3>
                             <div className="mt-5 space-y-4 text-zinc-600 leading-relaxed">
-                                <p>
-                                    It provides visibility across the full lifecycle of work: selection, assignment, execution, governance, and performance.
-                                </p>
-                                <p>
-                                    Teams can expand their use of AI while keeping accountability, oversight, and control in one operating system.
-                                </p>
+                                {copy.featureParagraphs.map((paragraph) => (
+                                    <p key={paragraph}>{paragraph}</p>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                         {differentiators.map((item, index) => (
                             <DifferentiatorCard
                                 key={item.id}
                                 {...item}
+                                title={copy.cards[index].title}
+                                description={copy.cards[index].description}
                                 className={index === 4 ? 'md:col-span-2' : ''}
                                 style={{ '--reveal-delay': `${index * 90}ms` }}
                             />
@@ -116,11 +84,11 @@ const Differentiators = () => {
 
                 <div className="mt-16">
                     <div data-reveal className="mb-8 text-center">
-                        <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 font-['Poppins']">
-                            How RotexAI Differs From Existing Tools
+                        <h3 className="font-['Be_Vietnam_Pro'] text-2xl md:text-3xl font-bold text-zinc-900">
+                            {copy.comparisonTitle}
                         </h3>
                         <p className="text-zinc-600 max-w-2xl mx-auto mt-3">
-                            Traditional workforce tools primarily manage people. AI platforms typically manage agents. RotexAI manages both.
+                            {copy.comparisonDescription}
                         </p>
                     </div>
 
@@ -128,19 +96,19 @@ const Differentiators = () => {
                         <div className="relative z-10 overflow-x-auto">
                             <div className="min-w-[860px]">
                                 <div className="grid grid-cols-[0.85fr_1fr_1fr_1.08fr] border-b border-white/55 bg-white/[0.04]">
-                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">Criteria</div>
-                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">Workforce tools</div>
-                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">AI agent platforms</div>
-                                    <div className="m-3 mb-0 rounded-t-2xl border-x border-t border-amber-200/90 bg-amber-300/15 p-5 text-sm font-extrabold uppercase tracking-[0.14em] text-amber-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_0_36px_rgba(245,158,11,0.24)] backdrop-blur-2xl">RotexAI</div>
+                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">{criteriaHeader}</div>
+                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">{workforceHeader}</div>
+                                    <div className="p-5 text-sm font-bold uppercase tracking-[0.12em] text-zinc-500">{agentHeader}</div>
+                                    <div className="m-3 mb-0 rounded-t-2xl border-x border-t border-amber-200/90 bg-amber-300/15 p-5 text-sm font-extrabold uppercase tracking-[0.14em] text-amber-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_0_36px_rgba(245,158,11,0.24)] backdrop-blur-2xl">{rotexHeader}</div>
                                 </div>
 
-                                {comparisonRows.map((row, index) => (
-                                    <div className="grid grid-cols-[0.85fr_1fr_1fr_1.08fr] border-b border-white/45 last:border-b-0" key={row.criteria}>
-                                        <div className="p-5 font-bold text-zinc-900">{row.criteria}</div>
-                                        <div className="p-5 text-zinc-600">{row.agent}</div>
-                                        <div className="p-5 text-zinc-600">{row.workflow}</div>
-                                        <div className={`mx-3 border-x border-amber-200/90 bg-amber-300/10 p-5 font-bold text-zinc-900 shadow-[inset_1px_0_0_rgba(255,255,255,0.55),inset_-1px_0_0_rgba(255,255,255,0.35),0_0_36px_rgba(245,158,11,0.16)] backdrop-blur-2xl ${index === comparisonRows.length - 1 ? 'mb-3 rounded-b-2xl border-b' : ''}`}>
-                                            {row.rotexai}
+                                {copy.comparisonRows.map((row, index) => (
+                                    <div className="grid grid-cols-[0.85fr_1fr_1fr_1.08fr] border-b border-white/45 last:border-b-0" key={row[0]}>
+                                        <div className="p-5 font-bold text-zinc-900">{row[0]}</div>
+                                        <div className="p-5 text-zinc-600">{row[1]}</div>
+                                        <div className="p-5 text-zinc-600">{row[2]}</div>
+                                        <div className={`mx-3 border-x border-amber-200/90 bg-amber-300/10 p-5 font-normal text-zinc-600 shadow-[inset_1px_0_0_rgba(255,255,255,0.55),inset_-1px_0_0_rgba(255,255,255,0.35),0_0_36px_rgba(245,158,11,0.16)] backdrop-blur-2xl ${index === copy.comparisonRows.length - 1 ? 'mb-3 rounded-b-2xl border-b' : ''}`}>
+                                            {row[3]}
                                         </div>
                                     </div>
                                 ))}

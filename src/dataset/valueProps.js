@@ -1,4 +1,4 @@
-import { Bot, SearchCheck, UsersRound } from 'lucide-react';
+import { Bot, GitBranch, SearchCheck, UsersRound } from 'lucide-react';
 
 export const valueProps = [
     {
@@ -19,6 +19,14 @@ export const valueProps = [
     },
     {
         id: 3,
+        title: "Understand How AI Agent Logic Works",
+        description: "See how an AI agent handles work through a visual workflow and UI builder, so your team can trace, test, and adjust logic when needed.",
+        icon: GitBranch,
+        color: "text-amber-500",
+        visual: "workflow"
+    },
+    {
+        id: 4,
         title: "Build The Right Human-Agent Team",
         description: "Achieve a better balance between cost, quality, speed, and reliability.",
         icon: UsersRound,

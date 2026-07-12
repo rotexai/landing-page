@@ -3,7 +3,7 @@ import { UsersRound } from 'lucide-react';
 import { valueProps } from '../../dataset/valueProps';
 import SectionIcon from '../SectionIcon';
 
-const CardVisual = ({ type, icon: Icon }) => {
+const CardVisual = ({ type, icon: Icon, labels = ['Capability fit', 'Cost range', 'Risk level'], control = 'Control' }) => {
     if (type === 'decision') {
         return (
             <div className="relative h-44 overflow-hidden rounded-xl border border-white/80 bg-[linear-gradient(145deg,rgba(255,251,235,0.58),rgba(255,255,255,0.14))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
@@ -20,7 +20,7 @@ const CardVisual = ({ type, icon: Icon }) => {
                     ))}
                 </div>
                 <div className="absolute right-5 top-5 rounded-full border border-white/90 bg-white/45 px-3 py-1 text-xs font-semibold text-amber-600 shadow-sm backdrop-blur-xl">
-                    Control
+                    {control}
                 </div>
             </div>
         );
@@ -49,13 +49,44 @@ const CardVisual = ({ type, icon: Icon }) => {
         );
     }
 
+    if (type === 'workflow') {
+        const steps = [
+            { position: 'left-5 top-9', width: 'w-20' },
+            { position: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2', width: 'w-24' },
+            { position: 'right-5 bottom-9', width: 'w-20' },
+        ];
+
+        return (
+            <div className="relative h-44 overflow-hidden rounded-xl border border-white/80 bg-[linear-gradient(145deg,rgba(255,251,235,0.58),rgba(255,255,255,0.14))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                <div className="absolute inset-6 rounded-[1.25rem] border border-white/60 bg-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]" />
+                <div className="absolute left-14 right-14 top-1/2 h-px -translate-y-1/2 bg-amber-300/45" />
+                <div className="absolute left-[34%] top-[36%] h-px w-[26%] rotate-[24deg] bg-amber-300/40" />
+                <div className="absolute right-[28%] bottom-[36%] h-px w-[26%] rotate-[24deg] bg-amber-300/40" />
+                <div className="absolute left-0 top-0 h-24 w-32 bg-white/30 blur-2xl" />
+                {steps.map((step, index) => (
+                    <div
+                        key={step.position}
+                        className={`absolute ${step.position} rounded-2xl border border-white/90 bg-white/45 p-3 shadow-[0_14px_32px_rgba(245,158,11,0.10)] backdrop-blur-xl ${step.width}`}
+                    >
+                        <div className="mb-2 h-2 w-2 rounded-full bg-amber-400" />
+                        <div className="h-1.5 w-full rounded-full bg-amber-200/70" />
+                        <div className="mt-2 h-1.5 w-2/3 rounded-full bg-white/80" />
+                    </div>
+                ))}
+                <div className="absolute left-1/2 top-1/2 z-10 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/90 bg-white/45 text-amber-500 shadow-[0_16px_36px_rgba(245,158,11,0.18)] backdrop-blur-xl">
+                    <Icon size={24} />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="relative h-44 overflow-hidden rounded-xl border border-white/80 bg-[linear-gradient(145deg,rgba(255,251,235,0.58),rgba(255,255,255,0.14))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
             <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/90 bg-white/45 text-amber-500 shadow-sm backdrop-blur-xl">
                 <Icon size={20} />
             </div>
             <div className="relative mt-8 space-y-3">
-                {['Capability fit', 'Cost range', 'Risk level'].map((label, index) => (
+                {labels.map((label) => (
                     <div key={label} className="flex items-center gap-3 rounded-lg border border-white/75 bg-white/45 px-3 py-2 shadow-[0_10px_28px_rgba(245,158,11,0.08)] backdrop-blur-xl">
                         <span className="h-2.5 w-2.5 rounded-full bg-amber-400/85" />
                         <span className="text-xs font-semibold text-zinc-700">{label}</span>
@@ -67,12 +98,12 @@ const CardVisual = ({ type, icon: Icon }) => {
     );
 };
 
-const ValuePropCard = ({ title, description, icon, color, visual, className = '', style }) => {
+const ValuePropCard = ({ title, description, icon, color, visual, visualLabels, visualControl, className = '', style }) => {
     const Icon = icon;
     return (
         <div data-reveal style={style} className={`value-prop-card group relative min-w-0 overflow-hidden rounded-2xl border border-white/95 bg-white/[0.06] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.34),0_30px_90px_rgba(24,24,27,0.14)] ring-1 ring-white/80 backdrop-blur-[28px] backdrop-saturate-150 transition-all duration-300 before:absolute before:inset-0 before:pointer-events-none before:rounded-2xl before:bg-[linear-gradient(135deg,rgba(255,255,255,0.42),rgba(255,255,255,0.08)_38%,rgba(255,255,255,0.01)_74%)] before:opacity-70 after:absolute after:inset-px after:pointer-events-none after:rounded-[15px] after:border after:border-white/85 hover:-translate-y-1 hover:border-white hover:bg-amber-100/[0.16] hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,255,255,0.42),0_36px_100px_rgba(245,158,11,0.16)] ${className}`}>
             <div className="relative z-10 mb-6">
-                <CardVisual type={visual} icon={Icon} />
+                <CardVisual type={visual} icon={Icon} labels={visualLabels} control={visualControl} />
             </div>
             <h3 className="relative z-10 mb-3 px-2 text-xl font-semibold text-zinc-900">
                 {title}
@@ -84,7 +115,7 @@ const ValuePropCard = ({ title, description, icon, color, visual, className = ''
     );
 };
 
-const ValueProps = () => {
+const ValueProps = ({ copy }) => {
     const sectionRef = useRef(null);
 
     useEffect(() => {
@@ -129,19 +160,23 @@ const ValueProps = () => {
             <div className="relative z-10 mx-auto max-w-7xl">
                 <div data-reveal className="mb-16 text-center">
                     <SectionIcon icon={UsersRound} />
-                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4 font-['Poppins']">
-                        One Operating System For Your <span className="text-amber-500">Entire Workforce</span>
+                    <h2 className="font-['Be_Vietnam_Pro'] text-3xl md:text-4xl font-bold text-zinc-900 mb-4">
+                        <span className="language-copy inline-block">{copy.title}</span> <span className="language-copy inline-block text-amber-500">{copy.accent}</span>
                     </h2>
                     <p className="text-zinc-600 max-w-2xl mx-auto">
-                        Describe the task. RotexAI analyzes the work, identifies required capabilities, and recommends the best person, AI agent, or hybrid team.
+                        {copy.description}
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                     {valueProps.map((prop, index) => (
                         <ValuePropCard
                             key={prop.id}
                             {...prop}
+                            title={copy.cards[index].title}
+                            description={copy.cards[index].description}
+                            visualLabels={copy.visualLabels}
+                            visualControl={copy.control}
                             style={{ '--reveal-delay': `${index * 90}ms` }}
                         />
                     ))}
