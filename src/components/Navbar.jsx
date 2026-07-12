@@ -7,14 +7,34 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const NAV_ITEMS = [
-    { id: 'value-props', label: 'Capabilities' },
-    { id: 'how-it-works', label: 'How It Works' },
-    { id: 'differentiators', label: 'Why RotexAI' },
-    { id: 'workflow-proof', label: 'Marketplace' },
-    { id: 'pricing', label: 'Pricing' },
+    { id: 'value-props', key: 'valueProps' },
+    { id: 'how-it-works', key: 'howItWorks' },
+    { id: 'differentiators', key: 'differentiators' },
+    { id: 'workflow-proof', key: 'marketplace' },
+    { id: 'pricing', key: 'pricing' },
 ];
 
-const Navbar = () => {
+const LanguageToggle = ({ language, onLanguageChange, label }) => (
+    <button
+        type="button"
+        aria-label={label}
+        onClick={() => onLanguageChange(language === 'en' ? 'vi' : 'en')}
+        className="language-toggle relative flex h-9 w-[72px] shrink-0 items-center justify-between rounded-full border border-[rgba(255,184,0,0.25)] bg-white/65 p-1 text-[11px] font-extrabold uppercase tracking-[0.08em] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_10px_24px_rgba(24,24,27,0.08)] backdrop-blur-xl transition-colors duration-[250ms] hover:border-amber-300/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70"
+    >
+        <span
+            aria-hidden="true"
+            className={`absolute left-1 top-1 h-7 w-[30px] rounded-full bg-[#FFB000] shadow-[0_8px_18px_rgba(255,176,0,0.28)] transition-transform duration-[250ms] ease-out ${language === 'vi' ? 'translate-x-[34px]' : 'translate-x-0'}`}
+        />
+        <span className={`relative z-10 flex h-7 w-[30px] items-center justify-center transition-colors duration-[250ms] ${language === 'en' ? 'text-[#1A0D06]' : 'text-[#6F6A72]'}`}>
+            EN
+        </span>
+        <span className={`relative z-10 flex h-7 w-[30px] items-center justify-center transition-colors duration-[250ms] ${language === 'vi' ? 'text-[#1A0D06]' : 'text-[#6F6A72]'}`}>
+            VI
+        </span>
+    </button>
+);
+
+const Navbar = ({ language = 'en', onLanguageChange = () => { }, copy = {} }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const containerRef = useRef(null);
@@ -97,7 +117,7 @@ const Navbar = () => {
                     {/* Wordmark */}
                     <button
                         onClick={scrollToTop}
-                        className="text-lg font-bold tracking-tight text-zinc-900 hover:text-amber-500 transition-colors focus:outline-none font-['Poppins']"
+                        className="font-['Be_Vietnam_Pro'] text-lg font-bold tracking-tight text-zinc-900 hover:text-amber-500 transition-colors focus:outline-none"
                         aria-label="Scroll to top"
                     >
                         RotexAI
@@ -109,12 +129,17 @@ const Navbar = () => {
                             <a
                                 key={item.id}
                                 href={`#${item.id}`}
-                                className={`text-sm font-medium transition-colors hover:text-zinc-900 ${activeSection === item.id ? 'text-zinc-900' : 'text-zinc-500'
+                                className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-zinc-900 ${activeSection === item.id ? 'text-zinc-900' : 'text-zinc-500'
                                     }`}
                             >
-                                {item.label}
+                                {copy[item.key]}
                             </a>
                         ))}
+                        <LanguageToggle
+                            language={language}
+                            onLanguageChange={onLanguageChange}
+                            label={copy.toggleLabel}
+                        />
                     </div>
                 </div>
 
@@ -133,12 +158,19 @@ const Navbar = () => {
                         key={item.id}
                         ref={(el) => (linksRef.current[index] = el)}
                         href={`#${item.id}`}
-                        className={`text-sm font-medium transition-colors hover:text-zinc-900 opacity-0 ${activeSection === item.id ? 'text-zinc-900' : 'text-zinc-500'}`}
+                        className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-zinc-900 opacity-0 ${activeSection === item.id ? 'text-zinc-900' : 'text-zinc-500'}`}
                         onClick={toggleMenu}
                     >
-                        {item.label}
+                        {copy[item.key]}
                     </a>
                 ))}
+                <div ref={(el) => (linksRef.current[NAV_ITEMS.length] = el)} className="opacity-0">
+                    <LanguageToggle
+                        language={language}
+                        onLanguageChange={onLanguageChange}
+                        label={copy.toggleLabel}
+                    />
+                </div>
             </div>
         </nav>
     );

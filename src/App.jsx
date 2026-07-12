@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css'
 import Navbar from "./components/Navbar";
 import FloatingLines from './components/FloatingLines';
@@ -11,9 +11,12 @@ import Differentiators from './components/Differentiators/Differentiators';
 import Pricing from './components/Pricing/Pricing';
 import WorkflowProof from './components/WorkflowProof/WorkflowProof';
 import Contact from './components/Contact/Contact';
+import { getCopy } from './i18n';
 
 function App() {
   const storyRef = useRef(null);
+  const [language, setLanguage] = useState('en');
+  const content = getCopy(language);
   const { width } = useWindowSize();
   const isMobile = width < 768;
 
@@ -35,7 +38,7 @@ function App() {
     revealElements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     const story = storyRef.current;
@@ -82,7 +85,7 @@ function App() {
         />
       </div>
 
-      <Navbar />
+      <Navbar language={language} onLanguageChange={setLanguage} copy={content.nav} />
 
       <div ref={storyRef} className="workforce-story relative z-10">
         {/* Hero Section */}
@@ -90,21 +93,19 @@ function App() {
           <div className="story-hero-copy absolute z-50 flex w-full flex-col items-center gap-4">
             <h1
               data-reveal
-              className="px-4 text-center font-['Poppins'] text-4xl font-bold leading-[1.05] tracking-tight text-zinc-950 sm:text-5xl md:text-6xl lg:text-7xl"
+              className="px-4 text-center font-['Be_Vietnam_Pro'] text-4xl font-bold leading-[1.08] tracking-tight text-zinc-950 sm:text-5xl md:text-6xl lg:text-7xl"
             >
-              <span className="block">Assign Every Task To</span>
+              <span className="block language-copy" key={`${language}-hero-line1`}>{content.hero.line1}</span>
               <span className="block">
-                The <span className="text-amber-500">Right Person</span> Or{' '}
-                <span className="text-purple-400">AI Agent</span>
+                <span className="language-copy inline-block" key={`${language}-hero-line2`}>
+                  {content.hero.line2Prefix} <span className="text-amber-500">{content.hero.rightPerson}</span> {content.hero.connector}{' '}
+                  <span className="text-purple-400">{content.hero.aiAgent}</span>
+                </span>
               </span>
             </h1>
             <TextType
-              text={[
-                "Discover human talent, AI agents, and hybrid teams.",
-                "Compare cost, speed, reliability, and risk.",
-                "Set permissions and approval checkpoints before work begins.",
-                "Measure workforce performance in one system."
-              ]}
+              key={language}
+              text={content.hero.typewriter}
               typingSpeed={75}
               pauseDuration={1500}
               showCursor={true}
@@ -123,19 +124,19 @@ function App() {
               color="magenta"
               speed="5s"
             >
-              Create a Free Workspace
+              {content.hero.cta}
             </StarBorder>
           </div>
         </div>
 
 
-        <ValueProps />
+        <ValueProps copy={content.valueProps} />
       </div>
-      <HowItWorks />
-      <Differentiators />
-      <WorkflowProof />
-      <Pricing />
-      <Contact />
+      <HowItWorks copy={content.howItWorks} language={language} />
+      <Differentiators copy={content.differentiators} />
+      <WorkflowProof copy={content.marketplace} />
+      <Pricing copy={content.pricing} />
+      <Contact copy={content.contact} />
     </div>
   )
 }
