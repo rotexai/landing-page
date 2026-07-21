@@ -15,7 +15,7 @@ const Contact = ({ copy }) => {
                     <span className="language-copy inline-block text-amber-500">{copy.accent}</span>
                 </h2>
 
-                <p data-reveal style={{ '--reveal-delay': '110ms' }} className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto">
+                <p data-reveal style={{ '--reveal-delay': '110ms' }} className="section-subtitle mb-12">
                     {copy.description}
                 </p>
 

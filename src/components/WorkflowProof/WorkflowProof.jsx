@@ -166,7 +166,7 @@ const WorkflowProof = ({ copy }) => {
                     <h2 className="font-['Be_Vietnam_Pro'] text-3xl md:text-5xl font-bold text-zinc-900 mb-4 tracking-tight">
                         <span className="language-copy inline-block">{copy.title}</span> <span className="language-copy inline-block text-amber-500">{copy.accent}</span>
                     </h2>
-                    <p className="text-zinc-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                    <p className="section-subtitle">
                         {copy.description}
                     </p>
                 </div>

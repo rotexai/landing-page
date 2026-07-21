@@ -96,12 +96,7 @@ function App() {
               className="px-4 text-center font-['Be_Vietnam_Pro'] text-4xl font-bold leading-[1.08] tracking-tight text-zinc-950 sm:text-5xl md:text-6xl lg:text-7xl"
             >
               <span className="block language-copy" key={`${language}-hero-line1`}>{content.hero.line1}</span>
-              <span className="block">
-                <span className="language-copy inline-block" key={`${language}-hero-line2`}>
-                  {content.hero.line2Prefix} <span className="text-amber-500">{content.hero.rightPerson}</span> {content.hero.connector}{' '}
-                  <span className="text-purple-400">{content.hero.aiAgent}</span>
-                </span>
-              </span>
+              <span className="block language-copy text-amber-500" key={`${language}-hero-line2`}>{content.hero.line2}</span>
             </h1>
             <TextType
               key={language}
@@ -110,7 +105,7 @@ function App() {
               pauseDuration={1500}
               showCursor={true}
               cursorCharacter="|"
-              className="text-xl md:text-2xl text-zinc-600"
+              className="hero-subtitle text-xl md:text-2xl text-zinc-600"
             />
           </div>
 
