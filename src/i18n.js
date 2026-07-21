@@ -230,7 +230,6 @@ export const copy = {
       footerLinks: [
         { label: 'Capabilities', href: '#value-props' },
         { label: 'How It Works', href: '#how-it-works' },
-        { label: 'Why RotexAI', href: '#differentiators' },
         { label: 'Marketplace', href: '#workflow-proof' },
         { label: 'Pricing', href: '#pricing' },
       ],
@@ -463,7 +462,6 @@ export const copy = {
       footerLinks: [
         { label: 'Năng lực', href: '#value-props' },
         { label: 'Cách hoạt động', href: '#how-it-works' },
-        { label: 'Vì sao RotexAI', href: '#differentiators' },
         { label: 'Marketplace', href: '#workflow-proof' },
         { label: 'Bảng giá', href: '#pricing' },
       ],

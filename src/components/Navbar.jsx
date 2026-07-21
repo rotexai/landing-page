@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 const NAV_ITEMS = [
     { id: 'value-props', key: 'valueProps' },
     { id: 'how-it-works', key: 'howItWorks' },
-    { id: 'differentiators', key: 'differentiators' },
     { id: 'workflow-proof', key: 'marketplace' },
     { id: 'pricing', key: 'pricing' },
 ];

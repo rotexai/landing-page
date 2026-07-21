@@ -7,7 +7,6 @@ import TextType from './components/TextType';
 import StarBorder from './components/StarBorder';
 import ValueProps from './components/ValueProps/ValueProps';
 import HowItWorks from './components/HowItWorks/HowItWorks';
-import Differentiators from './components/Differentiators/Differentiators';
 import Pricing from './components/Pricing/Pricing';
 import WorkflowProof from './components/WorkflowProof/WorkflowProof';
 import Contact from './components/Contact/Contact';
@@ -128,7 +127,6 @@ function App() {
         <ValueProps copy={content.valueProps} />
       </div>
       <HowItWorks copy={content.howItWorks} language={language} />
-      <Differentiators copy={content.differentiators} />
       <WorkflowProof copy={content.marketplace} />
       <Pricing copy={content.pricing} />
       <Contact copy={content.contact} />
