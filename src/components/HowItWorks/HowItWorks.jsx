@@ -160,11 +160,11 @@ const WorkflowCard = ({ step, index, activeIndex, language, title, description }
     );
 };
 
-const Connector = ({ complete }) => (
+const Connector = ({ complete, muted = false }) => (
     <div className="workflow-connector relative flex w-16 shrink-0 items-center justify-center md:w-20" aria-hidden="true">
-        <span className={`h-px w-full transition-colors duration-300 ${complete ? 'bg-amber-400' : 'bg-zinc-200'}`} />
+        <span className={`h-px w-full transition-colors duration-300 ${complete ? 'bg-amber-400' : muted ? 'bg-zinc-100' : 'bg-zinc-200'}`} />
         <span className={`workflow-dot absolute h-2.5 w-2.5 rounded-full ${complete ? 'bg-amber-400' : 'bg-zinc-300'}`} />
-        <ArrowRight className={`absolute right-0 ${complete ? 'text-amber-500' : 'text-zinc-300'}`} size={18} />
+        <ArrowRight className={`absolute right-0 ${complete ? 'text-amber-500' : muted ? 'text-zinc-200' : 'text-zinc-300'}`} size={18} />
     </div>
 );
 
@@ -174,10 +174,16 @@ const HowItWorks = ({ copy, language = 'en' }) => {
     const carouselRef = useRef(null);
     const itemRefs = useRef([]);
     const total = howItWorks.length;
+    const loopedSteps = [
+        { sourceIndex: total - 1, key: 'lead-clone' },
+        ...howItWorks.map((_, index) => ({ sourceIndex: index, key: `step-${index}` })),
+        { sourceIndex: 0, key: 'tail-clone' },
+    ];
+    const activeLoopIndex = activeIndex + 1;
 
     const measureActiveCard = () => {
         const carousel = carouselRef.current;
-        const activeItem = itemRefs.current[activeIndex];
+        const activeItem = itemRefs.current[activeLoopIndex];
         const activeCard = activeItem?.querySelector('.workflow-card');
         if (!carousel || !activeItem || !activeCard) return;
 
@@ -188,7 +194,7 @@ const HowItWorks = ({ copy, language = 'en' }) => {
 
     useLayoutEffect(() => {
         measureActiveCard();
-    }, [activeIndex, language]);
+    }, [activeIndex, language, activeLoopIndex]);
 
     useEffect(() => {
         let frame = 0;
@@ -206,7 +212,7 @@ const HowItWorks = ({ copy, language = 'en' }) => {
             if (frame) window.cancelAnimationFrame(frame);
             window.removeEventListener('resize', requestMeasure);
         };
-    }, [activeIndex, language]);
+    }, [activeIndex, language, activeLoopIndex]);
 
     const goPrev = () => setActiveIndex((current) => (current - 1 + total) % total);
     const goNext = () => setActiveIndex((current) => (current + 1) % total);
@@ -219,7 +225,7 @@ const HowItWorks = ({ copy, language = 'en' }) => {
                     <h2 className="font-['Be_Vietnam_Pro'] mb-4 text-3xl font-extrabold tracking-tight text-zinc-900 md:text-[2.65rem] md:leading-tight">
                         <span className="language-copy inline-block">{copy.title}</span> <span className="language-copy inline-block text-amber-500">{copy.accent}</span>
                     </h2>
-                    <p className="mx-auto max-w-2xl text-zinc-600">
+                    <p className="section-subtitle">
                         {copy.description}
                     </p>
                 </div>
@@ -260,23 +266,32 @@ const HowItWorks = ({ copy, language = 'en' }) => {
                             className="flex items-center transition-transform duration-[620ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
                             style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
                         >
-                            {howItWorks.map((item, index) => (
+                            {loopedSteps.map(({ sourceIndex, key }, loopIndex) => {
+                                const item = howItWorks[sourceIndex];
+                                const isClone = key.includes('clone');
+                                const isActive = loopIndex === activeLoopIndex;
+                                const isCompletedConnector = !isClone && sourceIndex < activeIndex;
+
+                                return (
                                 <div
-                                    key={item.id}
-                                    ref={(node) => { itemRefs.current[index] = node; }}
+                                    key={key}
+                                    ref={(node) => { itemRefs.current[loopIndex] = node; }}
                                     className="flex shrink-0 items-center"
                                 >
                                     <WorkflowCard
                                         step={item}
-                                        index={index}
-                                        activeIndex={activeIndex}
+                                        index={sourceIndex}
+                                        activeIndex={isActive ? sourceIndex : -1}
                                         language={language}
-                                        title={copy.steps[index].title}
-                                        description={copy.steps[index].description}
+                                        title={copy.steps[sourceIndex].title}
+                                        description={copy.steps[sourceIndex].description}
                                     />
-                                    {index < total - 1 && <Connector complete={index < activeIndex} />}
+                                    {loopIndex < loopedSteps.length - 1 && (
+                                        <Connector complete={isCompletedConnector} muted={isClone} />
+                                    )}
                                 </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
 
