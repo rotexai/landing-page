@@ -90,7 +90,6 @@ class App extends Component {
     const sc = this.scenario();
     const typed = s.typed ?? 0;
     const picked = s.picked;
-    const fmt = (ms) => (ms / 1000).toFixed(2).replace('.', ',') + ' s';
     const isIdle = stage === 'typing' || stage === 'hold';
     const isBuilding = stage === 'building';
     const isReady = stage === 'ready';
@@ -99,7 +98,7 @@ class App extends Component {
     // ---------- composer ----------
     const typedText = isIdle ? sc.prompt.slice(0, typed) : sc.prompt;
     const skel = [86, 52, 52, 52, 64].map((h, i) => ({ h, bg: i <= b ? '#E2E7EB' : '#F1F4F6' }));
-    const btNames = ['Bảng dữ liệu: khách, hàng, đơn, hoá đơn', 'Luồng xử lý: Xác nhận đơn', 'Giao diện: màn hình Đơn hàng', 'Nối nút bấm với luồng'];
+    const btNames = ['Tạo danh sách khách, hàng, đơn, hoá đơn', 'Quy trình xác nhận đơn', 'Màn hình Đơn hàng', 'Gắn nút Xác nhận vào quy trình'];
     const btasks = btNames.map((label, i) => {
       const st = b > i ? 'done' : b === i ? 'run' : 'wait';
       return {
@@ -187,8 +186,7 @@ class App extends Component {
       const st = sts[df.id];
       const isTrig = df.kind === 'trig';
       const lk = isTrig ? { bg: '#0E1A24', border: '#0E1A24', color: '#FFFFFF', bs: 'solid' } : look[st];
-      const ms = df.step != null ? raw[df.step].ms : 0;
-      const sub = isTrig ? (flowStarted ? 'Đơn #1042' : 'chờ thao tác') : st === 'done' ? fmt(ms) : st === 'run' ? 'đang chạy' : st === 'skip' ? 'không chạy' : '';
+      const sub = isTrig ? (flowStarted ? 'Đơn #1042' : 'chờ thao tác') : st === 'done' ? 'Xong' : st === 'run' ? 'đang chạy' : st === 'skip' ? 'không chạy' : '';
       const isSel = selId === df.id;
       return {
         name: df.name, sub,
@@ -229,19 +227,19 @@ class App extends Component {
     const ss = sts[selId];
     const dm = {
       trig: flowStarted
-        ? { name: 'Nút Xác nhận', input: 'Đơn #1042 trên màn hình Đơn hàng', output: 'Bắt đầu luồng Xác nhận đơn', status: 'Đã kích hoạt' }
-        : { name: 'Nút Xác nhận', input: '—', output: 'Chưa có sự kiện', status: 'Chờ thao tác' },
-      het: { name: 'Báo hết hàng', input: '—', output: 'Không chạy vì kho còn đủ hàng', status: 'Nhánh này không được dùng' }
+        ? { name: 'Nút Xác nhận', input: 'Đơn #1042 trên màn hình Đơn hàng', output: 'Bắt đầu quy trình Xác nhận đơn', status: 'Đã kích hoạt' }
+        : { name: 'Nút Xác nhận', input: '—', output: 'Chưa có hoạt động', status: 'Chờ thao tác' },
+      het: { name: 'Báo hết hàng', input: '—', output: 'Không chạy vì kho còn đủ hàng', status: 'Không cần làm bước này' }
     };
     const dfSel = defs.find((x) => x.id === selId);
     const d = dm[selId] || {
       name: dfSel.name,
       input: raw[dfSel.step].input,
       output: ss === 'done' ? raw[dfSel.step].output : ss === 'run' ? 'đang xử lý' : 'chưa chạy',
-      status: ss === 'done' ? 'Thành công, ' + fmt(raw[dfSel.step].ms) : ss === 'run' ? 'Đang chạy' : 'Chờ'
+      status: ss === 'done' ? 'Thành công' : ss === 'run' ? 'Đang chạy' : 'Chờ'
     };
     d.outColor = '#0E1A24';
-    const runText = !flowStarted ? 'Chờ thao tác' : run ? 'Đang chạy · ' + p + '/5' : 'Hoàn tất · 5/5 · 0,86 s';
+    const runText = !flowStarted ? 'Chờ thao tác' : run ? 'Đang chạy · ' + p + '/5' : 'Hoàn tất · 5/5 bước';
     const runBg = !flowStarted ? '#EEF1F3' : run ? '#FFF1E8' : '#EEF1FE';
     const runColor = !flowStarted ? '#55626E' : run ? '#8A3306' : '#1B35B8';
 
@@ -266,7 +264,7 @@ class App extends Component {
       bDotOp: (tA >= 4 && tA < 40) ? 1 : 0,
       bFillW: (bF * 85.714).toFixed(2) + '%'
     };
-    const bNames = [['Lưu đơn', '0,12 s'], ['Kiểm tra kho', '0,08 s'], ['Trừ kho', '0,05 s'], ['Tạo hoá đơn', '0,21 s'], ['Nhắn khách', 'số thiếu']];
+    const bNames = [['Lưu đơn', 'Xong'], ['Kiểm tra kho', 'Xong'], ['Trừ kho', 'Xong'], ['Tạo hoá đơn', 'Xong'], ['Nhắn khách', 'số thiếu']];
     const bcols = [{ label: 'Bấm nút', sub: '', bg: '#0E1A24', border: '#0E1A24', color: '#FFFFFF', subColor: '#C9D1D8', pulse: '', op: 1 }]
       .concat(bNames.map((nm, i) => {
         const k = i + 1, thr = k / 6;
@@ -282,7 +280,7 @@ class App extends Component {
     const filtered = qLen >= 4;
     const dueDone = tB >= 40;
     const curB = tB < 8 ? ['calc(50% - 120px)', '260px'] : tB < 31 ? ['150px', '98px'] : tB < 52 ? ['calc(100% - 56px)', '166px'] : ['calc(100% - 76px)', '228px'];
-    const tipTextB = (tB >= 15 && tB < 31) ? 'Luồng: Tìm đơn' : (tB >= 36 && tB < 46) ? 'Luồng: Duyệt đơn' : (tB >= 62 && tB < 72) ? 'Luồng: Mở hoá đơn' : '';
+    const tipTextB = (tB >= 15 && tB < 31) ? 'Quy trình: Tìm đơn' : (tB >= 36 && tB < 46) ? 'Quy trình: Duyệt đơn' : (tB >= 62 && tB < 72) ? 'Quy trình: Mở hoá đơn' : '';
     const sB = {
       q: qLen > 0 ? 'Quán'.slice(0, qLen) : 'Tìm đơn, khách…',
       qColor: qLen > 0 ? '#0E1A24' : '#6B7886',
@@ -302,13 +300,13 @@ class App extends Component {
       tipText: tipTextB, tipOp: tipTextB ? 1 : 0, tipSide: tB < 31 ? 'left: 14px;' : 'right: 12px;'
     };
     const evDefs = [
-      { at: 26, title: 'Tìm đơn “Quán”', dots: 1, ms: '0,05 s', dur: 6 },
-      { at: 40, title: 'Duyệt đơn #1040', dots: 3, ms: '0,31 s', dur: 10 },
-      { at: 66, title: 'Mở hoá đơn #1041', dots: 2, ms: '0,12 s', dur: 6 }
+      { at: 26, title: 'Tìm đơn “Quán”', dots: 1, dur: 6 },
+      { at: 40, title: 'Duyệt đơn #1040', dots: 3, dur: 10 },
+      { at: 66, title: 'Mở hoá đơn #1041', dots: 2, dur: 6 }
     ];
     const evs = evDefs.filter((e) => tB >= e.at).reverse().map((e) => {
       const running = tB < e.at + e.dur;
-      return { title: e.title, sub: e.dots + ' bước' + (running ? '' : ' · ' + e.ms), dots: Array(e.dots).fill('●').join(' '), dotsColor: running ? '#F26A1B' : '#2445E8', chipText: running ? 'Đang chạy' : 'Thành công', chipBg: running ? '#FFF1E8' : '#EEF1FE', chipColor: running ? '#8A3306' : '#1B35B8' };
+      return { title: e.title, sub: e.dots + ' bước', dots: Array(e.dots).fill('●').join(' '), dotsColor: running ? '#F26A1B' : '#2445E8', chipText: running ? 'Đang chạy' : 'Thành công', chipBg: running ? '#FFF1E8' : '#EEF1FE', chipColor: running ? '#8A3306' : '#1B35B8' };
     });
 
     // C. build by chatting
@@ -375,9 +373,9 @@ class App extends Component {
     // E. track events
     const tE = T(72);
     const eAll = [
-      { at: 6, title: 'Xác nhận đơn #1042', sub: '5/5 bước · 0,86 s', ok: true },
-      { at: 14, title: 'Xác nhận đơn #1043', sub: '5/5 bước · 0,79 s', ok: true },
-      { at: 22, title: 'Xác nhận đơn #1044', sub: '4/5 bước · 0,52 s', ok: false }
+      { at: 6, title: 'Xác nhận đơn #1042', sub: '5/5 bước', ok: true },
+      { at: 14, title: 'Xác nhận đơn #1043', sub: '5/5 bước', ok: true },
+      { at: 22, title: 'Xác nhận đơn #1044', sub: '4/5 bước', ok: false }
     ];
     const eSel = tE >= 41;
     const eEvents = eAll.filter((x) => tE >= x.at).reverse().map((x) => ({
@@ -387,7 +385,7 @@ class App extends Component {
     }));
     const curE = tE < 30 ? ['calc(25% + 40px)', '70%'] : ['260px', '101px'];
     const sE = { sel: eSel, noSel: !eSel, cx: curE[0], cy: curE[1], ringOp: ringOf(tE, [40]) ? 1 : 0, ringScale: ringOf(tE, [40]) ? 1 : 0.4 };
-    const eChain = [['Lưu đơn', '0,12 s'], ['Kiểm tra kho', '0,08 s'], ['Trừ kho', '0,05 s'], ['Tạo hoá đơn', '0,21 s'], ['Nhắn khách', 'lỗi']].map((n, i) => {
+    const eChain = [['Lưu đơn', 'Xong'], ['Kiểm tra kho', 'Xong'], ['Trừ kho', 'Xong'], ['Tạo hoá đơn', 'Xong'], ['Nhắn khách', 'lỗi']].map((n, i) => {
       const err = i === 4;
       return { name: n[0], sub: n[1], bg: err ? '#FDECEA' : '#EEF1FE', border: err ? '#B42318' : '#2445E8', subColor: err ? '#8E1B10' : '#55626E', line: i < 4, lineColor: '#2445E8' };
     });
@@ -423,7 +421,7 @@ class App extends Component {
       const v = Math.max(0, Math.min(100, Number(el.value)));
       this.setState({ sl: v, slT: v });
     };
-    const views = [['Ứng dụng', 100], ['Cả hai', 50], ['Luồng', 0]].map(([label, v]) => {
+    const views = [['Phần mềm', 100], ['Cả hai', 50], ['Phía sau', 0]].map(([label, v]) => {
       const on = v === 100 ? sl >= 92 : v === 0 ? sl <= 8 : (sl > 8 && sl < 92);
       return { label, on, bg: on ? '#FFFFFF' : 'transparent', color: on ? '#0E1A24' : '#55626E', pick: () => setSl(v) };
     });
@@ -467,7 +465,7 @@ class App extends Component {
       evText: run ? 'Đang chạy' : 'Thành công',
       evBg: run ? '#FFF1E8' : '#EEF1FE',
       evColor: run ? '#8A3306' : '#1B35B8',
-      evSub: p + '/5 bước' + (finished ? ' · 0,86 s' : ''),
+      evSub: p + '/5 bước' + '',
       nodes, edges, ports, d, runText, runBg, runColor,
       dBg: '#F5F7F8', dBorder: '#E2E7EB',
       // scenes
@@ -489,12 +487,12 @@ class App extends Component {
       </a>
       <nav aria-label="Chính" style={{display: "flex", flexWrap: "wrap", gap: "30px", fontSize: "15px", fontWeight: "500"}}>
       <a href="#khac-biet">Vì sao khác</a>
-      <a href="#ung-dung">Ứng dụng web</a>
+      <a href="#ung-dung">Phần mềm của bạn</a>
       <a href="#cong-xay-dung">Cổng xây dựng</a>
       </nav>
       <div style={{display: "flex", alignItems: "center", gap: "18px"}}>
       <a href="#" style={{fontSize: "14px", fontWeight: "600", color: "#55626E"}}>EN</a>
-      <a href="https://portal.rotexai.com" style={{display: "inline-flex", alignItems: "center", minHeight: "44px", padding: "0 20px", borderRadius: "999px", background: "#0E1A24", color: "#FFFFFF", fontWeight: "600", fontSize: "15px"}}>Bắt đầu</a>
+      <a href="https://portal.rotexai.com" style={{display: "inline-flex", alignItems: "center", minHeight: "44px", padding: "0 20px", borderRadius: "999px", background: "#0E1A24", color: "#FFFFFF", fontWeight: "600", fontSize: "15px"}}>Thử ngay</a>
       </div>
       </div>
       </header>
@@ -502,8 +500,8 @@ class App extends Component {
       {/* HERO */}
       <section id="top" className="rx-pad rx-dots" style={{padding: "72px 48px 80px", borderBottom: "1px solid #D9DFE4"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto"}}>
-      <h1 className="rx-h1" style={{margin: "0 auto", maxWidth: "900px", textAlign: "center", fontSize: "68px", lineHeight: "1", fontWeight: "750", letterSpacing: "-0.045em"}}>Dựng ERP bằng một câu. Xem từng bước nó chạy.</h1>
-      <p style={{margin: "22px auto 0", maxWidth: "560px", textAlign: "center", fontSize: "18px", lineHeight: "1.55", color: "#3A4652"}}>Mô tả doanh nghiệp của bạn. RotexAI dựng ứng dụng, rồi cho bạn nhìn thấy logic bên trong.</p>
+      <h1 className="rx-h1" style={{margin: "0 auto", maxWidth: "900px", textAlign: "center", fontSize: "68px", lineHeight: "1", fontWeight: "750", letterSpacing: "-0.045em"}}>Kể cách quán bạn bán hàng. Có ngay phần mềm quản lý.</h1>
+      <p style={{margin: "22px auto 0", maxWidth: "560px", textAlign: "center", fontSize: "18px", lineHeight: "1.55", color: "#3A4652"}}>Đơn hàng, kho, hoá đơn, công nợ chạy đúng theo cách quán bạn làm việc. Đơn nào sai ở đâu, bạn thấy ngay.</p>
 
       {/* composer */}
       <div style={{maxWidth: "760px", margin: "36px auto 0", background: "#FFFFFF", border: "1px solid #C9D1D8", borderRadius: "24px", padding: "18px 18px 14px", boxShadow: "0 28px 60px -34px rgba(14,26,36,.35)"}}>
@@ -513,7 +511,7 @@ class App extends Component {
       <span style={{width: "36px", height: "36px", borderRadius: "50%", border: "1px solid #D9DFE4", display: "flex", alignItems: "center", justifyContent: "center"}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55626E" strokeWidth="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
       <span>Mô tả bằng lời thường ngày</span>
       </div>
-      <button type="button" aria-label="Dựng ứng dụng" onClick={V.submit} style={{width: "48px", height: "48px", borderRadius: "50%", border: "0", background: "#2445E8", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.4" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+      <button type="button" aria-label="Làm phần mềm" onClick={V.submit} style={{width: "48px", height: "48px", borderRadius: "50%", border: "0", background: "#2445E8", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.4" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
       </div>
       </div>
       {/* CONTROLS */}
@@ -529,7 +527,7 @@ class App extends Component {
       <span style={{fontSize: "13px", color: "#55626E"}}>Mô phỏng · tự chạy lặp lại</span>
       </div>
 
-      <div style={{marginTop: "18px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px", padding: "0 4px", fontSize: "13px", fontWeight: "600", color: "#55626E"}}><span>Ứng dụng web · người dùng của bạn thấy</span><span>Cổng xây dựng · bạn theo dõi</span></div>
+      <div style={{marginTop: "18px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px", padding: "0 4px", fontSize: "13px", fontWeight: "600", color: "#55626E"}}><span>Phần mềm · nhân viên của bạn dùng</span><span>Phía sau · bạn kiểm soát</span></div>
 
       {/* BEFORE / AFTER STAGE */}
       <div id="demo" className="rx-stage" style={{position: "relative", height: "580px", marginTop: "10px", border: "1px solid #D9DFE4", borderRadius: "16px", overflow: "hidden", background: "#FFFFFF", boxShadow: "0 1px 0 #D9DFE4, 0 24px 50px -30px rgba(14,26,36,.35)"}}>
@@ -545,12 +543,12 @@ class App extends Component {
       </div>
 
       {!!V.isIdle && (<>
-      <div style={{flex: "1", margin: "20px", border: "2px dashed #D9DFE4", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", textAlign: "center", fontSize: "16px", color: "#55626E"}}>Mỗi thao tác trong ứng dụng sẽ hiện thành từng bước ở đây.</div>
+      <div style={{flex: "1", margin: "20px", border: "2px dashed #D9DFE4", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", textAlign: "center", fontSize: "16px", color: "#55626E"}}>Nhân viên bấm gì, bạn thấy đơn đi qua từng bước ở đây.</div>
       </>)}
 
       {!!V.isBuilding && (<>
       <div style={{flex: "1", padding: "28px", display: "flex", flexDirection: "column", gap: "14px", maxWidth: "560px", marginLeft: "auto"}}>
-      <div style={{fontSize: "17px", fontWeight: "700"}}>Rox đang dựng cho bạn</div>
+      <div style={{fontSize: "17px", fontWeight: "700"}}>Rox đang làm phần mềm cho bạn</div>
       <ul style={{listStyle: "none", margin: "0", padding: "0", display: "flex", flexDirection: "column", gap: "10px"}}>
       {V.btasks.map((t, _i) => (<Fragment key={_i}>
       <li style={{display: "flex", alignItems: "center", gap: "12px", padding: "14px", borderRadius: "12px", border: `1px solid ${t.border}`, background: t.bg}}>
@@ -573,20 +571,20 @@ class App extends Component {
       <div className="rx-two" style={{flex: "1", minHeight: "0", display: "flex", gap: "28px", padding: "18px 28px"}}>
 
       <div style={{flex: "1", minWidth: "0", display: "flex", flexDirection: "column", gap: "12px"}}>
-      <div style={{height: "34px", display: "flex", alignItems: "center"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Sự kiện gần đây</span></div>
+      <div style={{height: "34px", display: "flex", alignItems: "center"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Hoạt động gần đây</span></div>
       <div style={{border: "1px solid #E2E7EB", borderRadius: "14px", overflow: "hidden"}}>
       {!!V.flowStarted && (<>
       <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3", background: "#F3F5FE"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Xác nhận đơn #1042</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>{V.evSub}</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: V.evBg, color: V.evColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{V.evText}</span></div>
       </>)}
-      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Xác nhận đơn #1041</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>5/5 bước · 0,79 s</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
-      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Duyệt đơn #1039</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>3/3 bước · 0,31 s</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
-      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3", background: "#FDF5F4"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Xác nhận đơn #1038</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>4/5 bước · 0,52 s</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#FDECEA", color: "#8E1B10", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Lỗi ở Nhắn khách</span></div>
-      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Nhập kho Cold brew</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>2/2 bước · 0,17 s</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
+      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Xác nhận đơn #1041</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>5/5 bước</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
+      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Duyệt đơn #1039</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>3/3 bước</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
+      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3", background: "#FDF5F4"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Xác nhận đơn #1038</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>4/5 bước</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#FDECEA", color: "#8E1B10", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Lỗi ở Nhắn khách</span></div>
+      <div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>Nhập kho Cold brew</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>2/2 bước</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: "#EEF1FE", color: "#1B35B8", fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>Thành công</span></div>
       </div>
       </div>
 
       <div style={{flex: "1", minWidth: "0", display: "flex", flexDirection: "column", gap: "12px"}}>
-      <div style={{height: "34px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Luồng: Xác nhận đơn</span><span style={{padding: "4px 12px", borderRadius: "999px", background: V.runBg, color: V.runColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{V.runText}</span></div>
+      <div style={{height: "34px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Quy trình: Xác nhận đơn</span><span style={{padding: "4px 12px", borderRadius: "999px", background: V.runBg, color: V.runColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{V.runText}</span></div>
       <div className="rx-dots" style={{flex: "none", overflowX: "auto", border: "1px solid #E2E7EB", borderRadius: "14px", backgroundColor: "#FAFBFC"}}>
       <div style={{position: "relative", width: "100%", minWidth: "520px", height: "252px"}}>
       {V.edges.map((e, _i) => (<Fragment key={_i}>
@@ -603,17 +601,17 @@ class App extends Component {
       </Fragment>))}
       <div style={{position: "absolute", left: "calc(63.057% + 12px)", top: "74px", fontSize: "12px", fontWeight: "600", color: "#55626E"}}>hết hàng</div>
       <div style={{position: "absolute", left: "2%", top: "166px", display: "flex", flexDirection: "column", gap: "5px", fontSize: "12px", color: "#3A4652"}}>
-      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "#2445E8"}}></span>Đã chạy xong</span>
-      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "#F26A1B"}}></span>Dữ liệu đang chạy tới</span>
-      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "repeating-linear-gradient(90deg, #B6C0CA 0 4px, transparent 4px 8px)"}}></span>Nhánh không đi qua</span>
+      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "#2445E8"}}></span>Đã xong</span>
+      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "#F26A1B"}}></span>Đang làm</span>
+      <span style={{display: "flex", alignItems: "center", gap: "8px"}}><span style={{width: "18px", height: "3px", background: "repeating-linear-gradient(90deg, #B6C0CA 0 4px, transparent 4px 8px)"}}></span>Không cần làm</span>
       </div>
       </div>
       </div>
       <div style={{flex: "1", minHeight: "0", borderRadius: "14px", background: V.dBg, border: `1px solid ${V.dBorder}`, padding: "12px 16px", display: "flex", flexDirection: "column", gap: "8px"}}>
       <div style={{display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "12px"}}><span style={{fontSize: "15px", fontWeight: "700"}}>{V.d.name}</span><span style={{fontSize: "13px", fontWeight: "600", color: V.d.outColor}}>{V.d.status}</span></div>
       <div style={{flex: "1", minHeight: "0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px"}}>
-      <div style={{padding: "8px 12px", borderRadius: "10px", background: "#FFFFFF", border: "1px solid #E2E7EB", overflow: "hidden"}}><div style={{fontSize: "12px", color: "#55626E"}}>Vào</div><div style={{marginTop: "2px", fontSize: "13.5px", lineHeight: "1.35"}}>{V.d.input}</div></div>
-      <div style={{padding: "8px 12px", borderRadius: "10px", background: "#FFFFFF", border: "1px solid #E2E7EB", overflow: "hidden"}}><div style={{fontSize: "12px", color: "#55626E"}}>Ra</div><div style={{marginTop: "2px", fontSize: "13.5px", lineHeight: "1.35", fontWeight: "600", color: V.d.outColor}}>{V.d.output}</div></div>
+      <div style={{padding: "8px 12px", borderRadius: "10px", background: "#FFFFFF", border: "1px solid #E2E7EB", overflow: "hidden"}}><div style={{fontSize: "12px", color: "#55626E"}}>Nhận</div><div style={{marginTop: "2px", fontSize: "13.5px", lineHeight: "1.35"}}>{V.d.input}</div></div>
+      <div style={{padding: "8px 12px", borderRadius: "10px", background: "#FFFFFF", border: "1px solid #E2E7EB", overflow: "hidden"}}><div style={{fontSize: "12px", color: "#55626E"}}>Kết quả</div><div style={{marginTop: "2px", fontSize: "13.5px", lineHeight: "1.35", fontWeight: "600", color: V.d.outColor}}>{V.d.output}</div></div>
       </div>
       </div>
       </div>
@@ -633,7 +631,7 @@ class App extends Component {
       </div>
 
       {!!V.isIdle && (<>
-      <div style={{flex: "1", margin: "20px", border: "2px dashed #D9DFE4", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", textAlign: "center", fontSize: "16px", color: "#55626E"}}>Ứng dụng của bạn sẽ hiện ở đây.</div>
+      <div style={{flex: "1", margin: "20px", border: "2px dashed #D9DFE4", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", textAlign: "center", fontSize: "16px", color: "#55626E"}}>Phần mềm của bạn sẽ hiện ở đây.</div>
       </>)}
 
       {!!V.isBuilding && (<>
@@ -666,7 +664,7 @@ class App extends Component {
       <div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>#1042 · {V.cur.customer}</div><div style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>{V.cur.productQty}</div></div>
       <span style={{padding: "3px 11px", borderRadius: "999px", background: V.stBg, color: V.stColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{V.stText}</span>
       <div style={{position: "relative"}}>
-      <span style={{position: "absolute", right: "0", bottom: "calc(100% + 8px)", padding: "3px 10px", borderRadius: "999px", background: "#FFF1E8", border: "1px solid #F26A1B", fontSize: "12px", fontWeight: "600", color: "#8A3306", whiteSpace: "nowrap", opacity: V.tipOp, transition: "opacity .2s", zIndex: "12"}}>Luồng: Xác nhận đơn</span>
+      <span style={{position: "absolute", right: "0", bottom: "calc(100% + 8px)", padding: "3px 10px", borderRadius: "999px", background: "#FFF1E8", border: "1px solid #F26A1B", fontSize: "12px", fontWeight: "600", color: "#8A3306", whiteSpace: "nowrap", opacity: V.tipOp, transition: "opacity .2s", zIndex: "12"}}>Quy trình: Xác nhận đơn</span>
       <span style={{boxSizing: "border-box", minWidth: "104px", height: "40px", padding: "0 16px", display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: "9px", background: V.btnBg, color: V.btnColor, fontSize: "14px", fontWeight: "600", whiteSpace: "nowrap"}}>{V.btnLabel}</span>
       </div>
       </div>
@@ -714,23 +712,23 @@ class App extends Component {
 
       {/* divider + handle */}
       <div style={{position: "absolute", left: V.pos, top: "0", bottom: "0", width: "3px", marginLeft: "-1.5px", background: "#0E1A24", zIndex: "4", pointerEvents: "none"}}></div>
-      <input id="rx-ba" className="rx-ba" type="range" min="0" max="100" step="1" value={V.sl} onChange={V.onSlide} aria-label="Kéo để so sánh ứng dụng và luồng chạy phía sau" />
+      <input id="rx-ba" className="rx-ba" type="range" min="0" max="100" step="1" value={V.sl} onChange={V.onSlide} aria-label="Kéo để xem chuyện gì xảy ra sau mỗi cú bấm" />
       <div className="rx-handle" style={{position: "absolute", left: V.pos, top: "50%", width: "56px", height: "56px", margin: "-28px 0 0 -28px", borderRadius: "50%", background: "#FFFFFF", border: "2px solid #0E1A24", boxShadow: "0 8px 24px -8px rgba(14,26,36,.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: "5", pointerEvents: "none"}}>
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E1A24" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"></path></svg>
       </div>
       </div>
 
-      <div style={{marginTop: "14px", textAlign: "center", fontSize: "13px", color: "#55626E"}}>Kéo thanh ngăn ở giữa để so sánh ứng dụng với luồng chạy phía sau nó.</div>
+      <div style={{marginTop: "14px", textAlign: "center", fontSize: "13px", color: "#55626E"}}>Kéo thanh ở giữa để xem chuyện gì xảy ra sau mỗi cú bấm.</div>
       </div>
       </section>
 
       <section id="khac-biet" className="rx-pad" style={{padding: "112px 48px"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto"}}>
-      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", maxWidth: "820px"}}>Giao diện nào cũng đẹp. Logic có đúng không mới là chuyện khác.</h2>
+      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", maxWidth: "820px"}}>Phần mềm nào trông cũng đẹp. Quan trọng là tính đúng tiền, đúng kho.</h2>
       <div style={{marginTop: "48px", display: "flex", flexDirection: "column", gap: "20px"}}>
 
       <div style={{borderRadius: "20px", background: "#0E1A24", padding: "24px 28px 28px"}}>
-      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px"}}><span style={{fontSize: "16px", fontWeight: "700", color: "#FFFFFF"}}>Các công cụ khác</span><span style={{fontSize: "14px", color: "#C9D1D8"}}>Bạn thấy giao diện. Phần xử lý nằm trong hộp kín.</span></div>
+      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px"}}><span style={{fontSize: "16px", fontWeight: "700", color: "#FFFFFF"}}>Excel, sổ tay, phần mềm bán sẵn</span><span style={{fontSize: "14px", color: "#C9D1D8"}}>Sai ở đâu không ai biết. Muốn đổi cách làm phải chờ người khác sửa.</span></div>
       <div style={{overflowX: "auto"}}><div style={{position: "relative", minWidth: "640px", marginTop: "12px", height: "130px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignItems: "center", justifyItems: "center"}}>
       <div style={{position: "absolute", left: "16.667%", right: "16.667%", top: "50%", height: "3px", marginTop: "-1.5px", background: "#3A4652"}}></div>
       <div style={{position: "absolute", left: "16.667%", width: V.sA.aFillW, top: "50%", height: "3px", marginTop: "-1.5px", background: "#F26A1B"}}></div>
@@ -742,7 +740,7 @@ class App extends Component {
       </div>
 
       <div className="rx-dots" style={{borderRadius: "20px", backgroundColor: "#FFFFFF", border: "1.5px solid #2445E8", padding: "24px 28px 28px"}}>
-      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px"}}><span style={{fontSize: "16px", fontWeight: "700"}}>RotexAI</span><span style={{fontSize: "14px", color: "#3A4652"}}>Mỗi thao tác chạy qua các bước bạn đọc được. Lỗi hiện đúng chỗ.</span></div>
+      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "6px 24px"}}><span style={{fontSize: "16px", fontWeight: "700"}}>RotexAI</span><span style={{fontSize: "14px", color: "#3A4652"}}>Mỗi đơn đi qua các bước bạn đọc hiểu được. Sai ở đâu, hiện ngay chỗ đó.</span></div>
       <div style={{overflowX: "auto"}}><div style={{position: "relative", minWidth: "880px", marginTop: "12px", height: "130px", display: "grid", gridTemplateColumns: "repeat(7, 1fr)", alignItems: "center", justifyItems: "center"}}>
       <div style={{position: "absolute", left: "7.143%", right: "7.143%", top: "50%", height: "3px", marginTop: "-1.5px", background: "#D9DFE4"}}></div>
       <div style={{position: "absolute", left: "7.143%", width: V.sA.bFillW, top: "50%", height: "3px", marginTop: "-1.5px", background: "#2445E8"}}></div>
@@ -759,8 +757,8 @@ class App extends Component {
       <section id="ung-dung" className="rx-pad" style={{padding: "104px 48px", background: "#FFFFFF", borderTop: "1px solid #D9DFE4", borderBottom: "1px solid #D9DFE4"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto"}}>
       <div style={{display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: "16px 48px"}}>
-      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", flex: "1 1 520px", maxWidth: "700px"}}>Mỗi cú bấm trong ứng dụng là một lần chạy.</h2>
-      <p style={{margin: "0", flex: "0 1 380px", fontSize: "17px", lineHeight: "1.55", color: "#3A4652"}}>Người dùng chỉ thấy phần mềm gọn gàng. Bạn thấy từng sự kiện phía sau.</p>
+      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", flex: "1 1 520px", maxWidth: "700px"}}>Nhân viên bấm Xác nhận, bạn thấy cả quá trình.</h2>
+      <p style={{margin: "0", flex: "0 1 380px", fontSize: "17px", lineHeight: "1.55", color: "#3A4652"}}>Nhân viên thấy phần mềm gọn gàng. Bạn thấy đơn được lưu, trừ kho, xuất hoá đơn, nhắn khách ra sao.</p>
       </div>
       <div className="rx-two2" style={{marginTop: "48px", display: "flex", gap: "20px"}}>
 
@@ -786,10 +784,10 @@ class App extends Component {
       <div className="rx-win" style={{position: "relative", border: "1px solid #D9DFE4", borderRadius: "16px", overflow: "hidden", background: "#FFFFFF", display: "flex", flexDirection: "column", boxShadow: "0 1px 0 #D9DFE4, 0 24px 50px -30px rgba(14,26,36,.3)", flex: "1", minWidth: "0", height: "440px"}}>
       <div style={{flex: "none", display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderBottom: "1px solid #E2E7EB", background: "#FAFBFC"}}><div style={{display: "flex", gap: "6px"}} aria-hidden="true"><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span></div><div style={{flex: "1", minWidth: "0", maxWidth: "460px", minHeight: "32px", display: "flex", alignItems: "center", gap: "8px", padding: "0 14px", borderRadius: "999px", background: "#EEF1F3", fontSize: "13px", color: "#3A4652", overflow: "hidden", whiteSpace: "nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#55626E" strokeWidth="2.4" aria-hidden="true" style={{flex: "none"}}><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span style={{overflow: "hidden", textOverflow: "ellipsis"}}>cong-xay-dung.example/su-kien</span></div></div>
       <div style={{padding: "20px", display: "flex", flexDirection: "column", gap: "16px"}}>
-      <div style={{height: "42px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"}}><span className="rx-h2" style={{fontSize: "22px", fontWeight: "700", letterSpacing: "-0.02em"}}>Sự kiện</span><span style={{display: "inline-flex", alignItems: "center", gap: "8px", padding: "4px 12px", borderRadius: "999px", background: "#F5F7F8", fontSize: "13px", fontWeight: "600", color: "#3A4652"}}><span className="rx-pulse" style={{width: "8px", height: "8px", borderRadius: "50%", background: "#F26A1B"}}></span>Trực tiếp</span></div>
+      <div style={{height: "42px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"}}><span className="rx-h2" style={{fontSize: "22px", fontWeight: "700", letterSpacing: "-0.02em"}}>Lịch sử đơn</span><span style={{display: "inline-flex", alignItems: "center", gap: "8px", padding: "4px 12px", borderRadius: "999px", background: "#F5F7F8", fontSize: "13px", fontWeight: "600", color: "#3A4652"}}><span className="rx-pulse" style={{width: "8px", height: "8px", borderRadius: "50%", background: "#F26A1B"}}></span>Đang diễn ra</span></div>
       <div style={{border: "1px solid #E2E7EB", borderRadius: "14px", overflow: "hidden", minHeight: "120px"}}>
       {V.evs.map((ev, _i) => (<Fragment key={_i}><div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>{ev.title}</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>{ev.sub}</div></div><span style={{fontSize: "13px", letterSpacing: "2px", color: ev.dotsColor}}>{ev.dots}</span><span style={{padding: "3px 11px", borderRadius: "999px", background: ev.chipBg, color: ev.chipColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{ev.chipText}</span></div></Fragment>))}
-      {!!V.sB.noEv && (<><div style={{padding: "36px 20px", textAlign: "center", fontSize: "15px", color: "#55626E"}}>Chưa có sự kiện nào.</div></>)}
+      {!!V.sB.noEv && (<><div style={{padding: "36px 20px", textAlign: "center", fontSize: "15px", color: "#55626E"}}>Chưa có hoạt động nào.</div></>)}
       </div>
       </div>
       </div>
@@ -799,11 +797,11 @@ class App extends Component {
 
       <section id="cong-xay-dung" className="rx-pad" style={{padding: "112px 48px"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto"}}>
-      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", maxWidth: "760px"}}>Cổng xây dựng: dựng, thử và theo dõi từng bước.</h2>
+      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", maxWidth: "760px"}}>Cách làm thay đổi? Tự sửa phần mềm, không cần lập trình viên.</h2>
 
       {/* Dựng */}
       <div style={{marginTop: "64px"}}>
-      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Dựng bằng lời</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Nói yêu cầu. Bước mới hiện ra trên sơ đồ để bạn xem trước.</p></div>
+      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Muốn đổi, cứ nói</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Ví dụ “Đơn trên 2 triệu thì tôi duyệt”. Rox thêm bước đó và cho bạn xem trước.</p></div>
       <div className="rx-win" style={{position: "relative", border: "1px solid #D9DFE4", borderRadius: "16px", overflow: "hidden", background: "#FFFFFF", display: "flex", flexDirection: "column", boxShadow: "0 1px 0 #D9DFE4, 0 24px 50px -30px rgba(14,26,36,.3)", marginTop: "20px", height: "430px"}}>
       <div style={{flex: "none", display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderBottom: "1px solid #E2E7EB", background: "#FAFBFC"}}><div style={{display: "flex", gap: "6px"}} aria-hidden="true"><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span></div><div style={{flex: "1", minWidth: "0", maxWidth: "460px", minHeight: "32px", display: "flex", alignItems: "center", gap: "8px", padding: "0 14px", borderRadius: "999px", background: "#EEF1F3", fontSize: "13px", color: "#3A4652", overflow: "hidden", whiteSpace: "nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#55626E" strokeWidth="2.4" aria-hidden="true" style={{flex: "none"}}><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span style={{overflow: "hidden", textOverflow: "ellipsis"}}>cong-xay-dung.example/luong/xac-nhan-don</span></div></div>
       <div style={{flex: "none", height: "56px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", padding: "0 24px", borderBottom: "1px solid #E2E7EB"}}><div style={{display: "flex", alignItems: "baseline", gap: "10px"}}><span className="rx-h2" style={{fontSize: "17px", fontWeight: "700"}}>Cổng xây dựng</span><span style={{fontSize: "13px", color: "#55626E"}}>Cà Phê Mộc</span></div><div style={{display: "flex", gap: "4px", fontSize: "14px", fontWeight: "600"}}><span style={{padding: "8px 14px", borderRadius: "999px", background: "#2445E8", color: "#FFFFFF"}}>Dựng</span><span style={{padding: "8px 14px", color: "#3A4652"}}>Thử</span><span style={{padding: "8px 14px", color: "#3A4652"}}>Theo dõi</span></div></div>
@@ -831,15 +829,15 @@ class App extends Component {
 
       {/* Thử */}
       <div style={{marginTop: "80px"}}>
-      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Thử trước khi áp dụng</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Chạy lại đơn cũ với quy tắc mới. Biết đơn nào đổi kết quả.</p></div>
+      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Thử trước, bật sau</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Rox thử quy tắc mới trên đơn tháng trước và chỉ ra đơn nào sẽ bị tính khác.</p></div>
       <div className="rx-win" style={{position: "relative", border: "1px solid #D9DFE4", borderRadius: "16px", overflow: "hidden", background: "#FFFFFF", display: "flex", flexDirection: "column", boxShadow: "0 1px 0 #D9DFE4, 0 24px 50px -30px rgba(14,26,36,.3)", marginTop: "20px", height: "430px"}}>
       <div style={{flex: "none", display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderBottom: "1px solid #E2E7EB", background: "#FAFBFC"}}><div style={{display: "flex", gap: "6px"}} aria-hidden="true"><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span></div><div style={{flex: "1", minWidth: "0", maxWidth: "460px", minHeight: "32px", display: "flex", alignItems: "center", gap: "8px", padding: "0 14px", borderRadius: "999px", background: "#EEF1F3", fontSize: "13px", color: "#3A4652", overflow: "hidden", whiteSpace: "nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#55626E" strokeWidth="2.4" aria-hidden="true" style={{flex: "none"}}><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span style={{overflow: "hidden", textOverflow: "ellipsis"}}>cong-xay-dung.example/thu</span></div></div>
       <div style={{flex: "none", height: "56px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", padding: "0 24px", borderBottom: "1px solid #E2E7EB"}}><div style={{display: "flex", alignItems: "baseline", gap: "10px"}}><span className="rx-h2" style={{fontSize: "17px", fontWeight: "700"}}>Cổng xây dựng</span><span style={{fontSize: "13px", color: "#55626E"}}>Cà Phê Mộc</span></div><div style={{display: "flex", gap: "4px", fontSize: "14px", fontWeight: "600"}}><span style={{padding: "8px 14px", color: "#3A4652"}}>Dựng</span><span style={{padding: "8px 14px", borderRadius: "999px", background: "#2445E8", color: "#FFFFFF"}}>Thử</span><span style={{padding: "8px 14px", color: "#3A4652"}}>Theo dõi</span></div></div>
       <div className="rx-two2" style={{flex: "1", minHeight: "0", position: "relative", display: "flex", gap: "24px", padding: "24px"}}>
       <div style={{flex: "0 0 38%", minWidth: "0", display: "flex", flexDirection: "column", gap: "14px", padding: "18px", border: "1px solid #E2E7EB", borderRadius: "14px"}}>
-      <div style={{fontSize: "16px", fontWeight: "700"}}>Chạy thử 120 đơn tháng trước</div>
+      <div style={{fontSize: "16px", fontWeight: "700"}}>Thử với 120 đơn tháng trước</div>
       <div style={{display: "flex", flexDirection: "column", gap: "8px"}}><div style={{height: "12px", borderRadius: "6px", background: "#EEF1F3"}}><div style={{width: V.sD.barW, height: "100%", borderRadius: "6px", background: "#2445E8"}}></div></div><div className="rx-tnum" style={{fontSize: "13px", color: "#55626E"}}>{V.sD.count} / 120 đơn</div></div>
-      <div style={{display: "flex", gap: "12px", opacity: V.sD.statsOp, transition: "opacity .3s"}}><div style={{flex: "1", padding: "12px 14px", borderRadius: "12px", background: "#F5F7F8"}}><div className="rx-h2 rx-tnum" style={{fontSize: "30px", fontWeight: "700"}}>117</div><div style={{fontSize: "13px", color: "#55626E"}}>giữ nguyên</div></div><div style={{flex: "1", padding: "12px 14px", borderRadius: "12px", background: "#FFF1E8", border: "1px solid #F26A1B"}}><div className="rx-h2 rx-tnum" style={{fontSize: "30px", fontWeight: "700", color: "#8A3306"}}>3</div><div style={{fontSize: "13px", color: "#8A3306"}}>đổi kết quả</div></div></div>
+      <div style={{display: "flex", gap: "12px", opacity: V.sD.statsOp, transition: "opacity .3s"}}><div style={{flex: "1", padding: "12px 14px", borderRadius: "12px", background: "#F5F7F8"}}><div className="rx-h2 rx-tnum" style={{fontSize: "30px", fontWeight: "700"}}>117</div><div style={{fontSize: "13px", color: "#55626E"}}>không đổi</div></div><div style={{flex: "1", padding: "12px 14px", borderRadius: "12px", background: "#FFF1E8", border: "1px solid #F26A1B"}}><div className="rx-h2 rx-tnum" style={{fontSize: "30px", fontWeight: "700", color: "#8A3306"}}>3</div><div style={{fontSize: "13px", color: "#8A3306"}}>sẽ khác</div></div></div>
       <div style={{marginTop: "auto", display: "flex", alignItems: "center", gap: "10px"}}><span style={{boxSizing: "border-box", width: "150px", height: "44px", display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: "999px", background: V.sD.applyBg, color: V.sD.applyColor, fontSize: "14.5px", fontWeight: "600"}}>{V.sD.applyText}</span><span style={{padding: "0 14px", fontSize: "14px", fontWeight: "600", color: "#55626E"}}>Huỷ</span></div>
       </div>
       <div style={{flex: "1", minWidth: "0", border: "1px solid #E2E7EB", borderRadius: "14px", overflow: "hidden", alignSelf: "flex-start"}}>
@@ -856,23 +854,23 @@ class App extends Component {
 
       {/* Theo dõi */}
       <div style={{marginTop: "80px"}}>
-      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Theo dõi từng sự kiện</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Lỗi hiện đúng bước. Mở ra là thấy nó nhận gì, trả gì.</p></div>
+      <div style={{display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 32px"}}><h3 className="rx-h2" style={{margin: "0", fontSize: "30px", fontWeight: "700", letterSpacing: "-0.03em"}}>Sai ở đâu, thấy ngay</h3><p style={{margin: "0", maxWidth: "520px", fontSize: "16px", lineHeight: "1.5", color: "#3A4652"}}>Mở một đơn lỗi là biết kẹt ở bước nào, vì sao.</p></div>
       <div className="rx-win" style={{position: "relative", border: "1px solid #D9DFE4", borderRadius: "16px", overflow: "hidden", background: "#FFFFFF", display: "flex", flexDirection: "column", boxShadow: "0 1px 0 #D9DFE4, 0 24px 50px -30px rgba(14,26,36,.3)", marginTop: "20px", height: "430px"}}>
       <div style={{flex: "none", display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", borderBottom: "1px solid #E2E7EB", background: "#FAFBFC"}}><div style={{display: "flex", gap: "6px"}} aria-hidden="true"><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span><span style={{width: "10px", height: "10px", borderRadius: "50%", background: "#D9DFE4"}}></span></div><div style={{flex: "1", minWidth: "0", maxWidth: "460px", minHeight: "32px", display: "flex", alignItems: "center", gap: "8px", padding: "0 14px", borderRadius: "999px", background: "#EEF1F3", fontSize: "13px", color: "#3A4652", overflow: "hidden", whiteSpace: "nowrap"}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#55626E" strokeWidth="2.4" aria-hidden="true" style={{flex: "none"}}><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span style={{overflow: "hidden", textOverflow: "ellipsis"}}>cong-xay-dung.example/su-kien</span></div></div>
       <div style={{flex: "none", height: "56px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", padding: "0 24px", borderBottom: "1px solid #E2E7EB"}}><div style={{display: "flex", alignItems: "baseline", gap: "10px"}}><span className="rx-h2" style={{fontSize: "17px", fontWeight: "700"}}>Cổng xây dựng</span><span style={{fontSize: "13px", color: "#55626E"}}>Cà Phê Mộc</span></div><div style={{display: "flex", gap: "4px", fontSize: "14px", fontWeight: "600"}}><span style={{padding: "8px 14px", color: "#3A4652"}}>Dựng</span><span style={{padding: "8px 14px", color: "#3A4652"}}>Thử</span><span style={{padding: "8px 14px", borderRadius: "999px", background: "#2445E8", color: "#FFFFFF"}}>Theo dõi</span></div></div>
       <div className="rx-two2" style={{flex: "1", minHeight: "0", position: "relative", display: "flex", gap: "24px", padding: "24px"}}>
       <div style={{flex: "0 0 44%", minWidth: "0", display: "flex", flexDirection: "column", gap: "12px"}}>
-      <div style={{height: "34px", display: "flex", alignItems: "center"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Sự kiện gần đây</span></div>
+      <div style={{height: "34px", display: "flex", alignItems: "center"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700", letterSpacing: "-0.02em"}}>Hoạt động gần đây</span></div>
       <div style={{border: "1px solid #E2E7EB", borderRadius: "14px", overflow: "hidden"}}>
       {V.eEvents.map((x, _i) => (<Fragment key={_i}><div style={{display: "flex", alignItems: "center", gap: "12px", padding: "12px 18px", borderBottom: "1px solid #EEF1F3", background: x.bg, transition: "background .3s"}}><div style={{flex: "1", minWidth: "0"}}><div style={{fontSize: "15px", fontWeight: "700"}}>{x.title}</div><div className="rx-tnum" style={{marginTop: "2px", fontSize: "13px", color: "#55626E"}}>{x.sub}</div></div><span style={{padding: "3px 11px", borderRadius: "999px", background: x.chipBg, color: x.chipColor, fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap"}}>{x.chipText}</span></div></Fragment>))}
       </div>
       </div>
       <div style={{flex: "1", minWidth: "0", display: "flex", flexDirection: "column", gap: "14px", padding: "18px", border: "1px solid #E2E7EB", borderRadius: "14px", background: "#FAFBFC"}}>
-      {!!V.sE.noSel && (<><div style={{flex: "1", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontSize: "15px", color: "#55626E"}}>Chọn một sự kiện để xem từng bước.</div></>)}
+      {!!V.sE.noSel && (<><div style={{flex: "1", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontSize: "15px", color: "#55626E"}}>Chọn một đơn để xem từng bước.</div></>)}
       {!!V.sE.sel && (<>
       <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "8px 12px"}}><span className="rx-h2" style={{fontSize: "20px", fontWeight: "700"}}>Xác nhận đơn #1044</span><span style={{padding: "4px 12px", borderRadius: "999px", background: "#FDECEA", color: "#8E1B10", fontSize: "13px", fontWeight: "600"}}>Lỗi ở bước Nhắn khách</span></div>
       <div style={{display: "flex", alignItems: "center"}}>{V.eChain.map((k, _i) => (<Fragment key={_i}><div style={{flex: "1", minWidth: "0", display: "flex", alignItems: "center"}}><div style={{flex: "1", minWidth: "0", boxSizing: "border-box", padding: "8px 6px", borderRadius: "10px", border: `2px solid ${k.border}`, background: k.bg, textAlign: "center"}}><div style={{fontSize: "12px", fontWeight: "700", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{k.name}</div><div className="rx-tnum" style={{fontSize: "11.5px", color: k.subColor}}>{k.sub}</div></div>{!!k.line && (<><span style={{flex: "none", width: "14px", height: "3px", background: k.lineColor}}></span></>)}</div></Fragment>))}</div>
-      <div style={{padding: "14px 16px", borderRadius: "12px", background: "#FDF5F4", border: "1px solid #B42318", display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 14px", fontSize: "14px", lineHeight: "1.4"}}><span style={{color: "#55626E"}}>Vào</span><span className="rx-tnum">SĐT 0912 345 67</span><span style={{color: "#55626E"}}>Ra</span><span style={{fontWeight: "700", color: "#8E1B10"}}>Số điện thoại thiếu 1 chữ số</span><span style={{color: "#55626E"}}>Dữ liệu</span><span>Các bước trước vẫn được giữ nguyên</span></div>
+      <div style={{padding: "14px 16px", borderRadius: "12px", background: "#FDF5F4", border: "1px solid #B42318", display: "grid", gridTemplateColumns: "auto 1fr", gap: "6px 14px", fontSize: "14px", lineHeight: "1.4"}}><span style={{color: "#55626E"}}>Nhận</span><span className="rx-tnum">SĐT 0912 345 67</span><span style={{color: "#55626E"}}>Kết quả</span><span style={{fontWeight: "700", color: "#8E1B10"}}>Số điện thoại thiếu 1 chữ số</span><span style={{color: "#55626E"}}>Ghi chú</span><span>Đơn, kho và hoá đơn vẫn đúng. Chỉ cần nhắn lại cho khách.</span></div>
       </>)}
       </div>
       <div className="rx-cur2" aria-hidden="true" style={{position: "absolute", left: V.sE.cx, top: V.sE.cy, width: "0", height: "0", zIndex: "20", pointerEvents: "none", transition: "left .6s cubic-bezier(.4,0,.2,1), top .6s cubic-bezier(.4,0,.2,1)"}}>
@@ -888,8 +886,8 @@ class App extends Component {
       <section id="vi-du" className="rx-pad" style={{padding: "104px 48px", background: "#FFFFFF", borderTop: "1px solid #D9DFE4", borderBottom: "1px solid #D9DFE4"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto"}}>
       <div style={{display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: "16px 48px"}}>
-      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", flex: "1 1 520px", maxWidth: "700px"}}>Dựng được những gì?</h2>
-      <p style={{margin: "0", flex: "0 1 380px", fontSize: "17px", lineHeight: "1.55", color: "#3A4652"}}>Ví dụ cho doanh nghiệp nhỏ. Mỗi ứng dụng đi kèm luồng bạn đọc được.</p>
+      <h2 className="rx-h2" style={{margin: "0", fontSize: "52px", lineHeight: "1.02", fontWeight: "750", letterSpacing: "-0.04em", flex: "1 1 520px", maxWidth: "700px"}}>Làm được những gì?</h2>
+      <p style={{margin: "0", flex: "0 1 380px", fontSize: "17px", lineHeight: "1.55", color: "#3A4652"}}>Vài ví dụ cho cửa hàng, quán, xưởng nhỏ. Cái nào cũng xem được từng bước.</p>
       </div>
       <div style={{marginTop: "48px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "20px"}}>
       {V.gallery.map((c, _i) => (<Fragment key={_i}>
@@ -916,10 +914,10 @@ class App extends Component {
       {/* FINAL CTA */}
       <section id="bat-dau" className="rx-pad" style={{padding: "0 48px 104px"}}>
       <div style={{maxWidth: "1240px", margin: "0 auto", borderRadius: "28px", background: "#2445E8", color: "#FFFFFF", padding: "72px 40px", display: "flex", flexDirection: "column", alignItems: "center", gap: "32px", textAlign: "center"}}>
-      <h2 className="rx-h2" style={{margin: "0", maxWidth: "760px", fontSize: "56px", lineHeight: "1", fontWeight: "750", letterSpacing: "-0.045em"}}>Doanh nghiệp của bạn cần ERP kiểu gì?</h2>
+      <h2 className="rx-h2" style={{margin: "0", maxWidth: "760px", fontSize: "56px", lineHeight: "1", fontWeight: "750", letterSpacing: "-0.045em"}}>Quán của bạn đang quản lý bằng gì? Kể cho Rox nghe.</h2>
       <div style={{width: "100%", maxWidth: "680px", display: "flex", flexWrap: "wrap", gap: "10px", padding: "10px", borderRadius: "999px", background: "#FFFFFF"}}>
       <input type="text" aria-label="Mô tả doanh nghiệp của bạn" placeholder="Ví dụ: quản lý bán hàng và kho cho cửa hàng của tôi…" style={{flex: "1 1 260px", minWidth: "0", minHeight: "48px", padding: "0 18px", border: "0", borderRadius: "999px", background: "transparent", color: "#0E1A24", fontFamily: "inherit", fontSize: "16px", outlineOffset: "2px"}} />
-      <a href="https://portal.rotexai.com" style={{display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: "48px", padding: "0 26px", borderRadius: "999px", background: "#0E1A24", color: "#FFFFFF", fontWeight: "700", fontSize: "16px"}}>Bắt đầu</a>
+      <a href="https://portal.rotexai.com" style={{display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: "48px", padding: "0 26px", borderRadius: "999px", background: "#0E1A24", color: "#FFFFFF", fontWeight: "700", fontSize: "16px"}}>Thử ngay</a>
       </div>
       </div>
       </section>
