@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connect your coding agent to RotexAI</title>
-  <meta name="description" content="Connect Claude Code, Codex or claude.ai to a RotexAI project over MCP." />
+  <meta name="description" content="Connect Claude Code, Codex or claude.ai to RotexAI over MCP." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <!-- Customers' own coding agents (docs/specs/261110-mcp-gateway.md R15 in the aos repo). Brand tokens as landing.css. -->
   <style>
@@ -31,24 +31,27 @@
   <main>
     <a class="home" href="/">RotexAI</a>
     <h1>Connect your coding agent</h1>
-    <p class="lead">Build a RotexAI project with your own Claude Code, Codex or claude.ai. Your agent works in the
-      project with your own rights: it signs in as you, sees what you can see, and changes only what you may change.</p>
+    <p class="lead">Build your RotexAI projects with your own Claude Code, Codex or claude.ai. Your agent works with
+      your own rights: it signs in as you, sees what you can see, and changes only what you may change.</p>
     <p class="note">This is a preview on our staging environment. Sign in with your staging account.</p>
 
     <h2>Before you start</h2>
     <ol>
-      <li>Open the project in the portal, then <strong>Team → Coding agents</strong>.</li>
-      <li>Copy the project's URL. It looks like <code>https://staging-mcp.rotexai.com/p/&lt;project id&gt;</code>.
-        Add <code>/all</code> at the end for every tool (data, history and release as well as the core build tools).</li>
-      <li>Agents can only read until an owner or admin turns on <strong>Let coding agents make changes</strong> there.</li>
+      <li>One connection serves all your projects. The URL is <code>https://staging-mcp.rotexai.com/mcp</code>, or
+        <code>https://staging-mcp.rotexai.com/mcp/all</code> for every tool (data, history and release as well as the
+        core build tools).</li>
+      <li>Ask your agent to work on a project by name. It lists your projects and switches to the one you mean, and
+        remembers it until you ask for another one or leave it idle for two hours. If you have only one project, it
+        starts there.</li>
+      <li>Agents can only read a project until an owner or admin turns on <strong>Let coding agents make
+        changes</strong> in that project's <strong>Team → Coding agents</strong> tab in the portal.</li>
     </ol>
-    <p class="muted">Below, replace <code>&lt;URL&gt;</code> with the project's URL and <code>rotexai-shop</code> with any
-      name you like for this connection.</p>
+    <p class="muted">Below, replace <code>&lt;URL&gt;</code> with one of the two URLs.</p>
 
     <section aria-labelledby="claude-code">
       <h2 id="claude-code">Claude Code</h2>
-      <pre><code>claude mcp add --transport http rotexai-shop &lt;URL&gt; --client-id rotexai-claude-code
-claude mcp login rotexai-shop</code></pre>
+      <pre><code>claude mcp add --transport http rotexai &lt;URL&gt; --client-id rotexai-claude-code
+claude mcp login rotexai</code></pre>
       <p>Or open <code>/mcp</code> in Claude Code and choose <strong>Authenticate</strong>. Your browser opens the RotexAI
         sign-in; approve the access and return to Claude Code.</p>
     </section>
@@ -56,21 +59,21 @@ claude mcp login rotexai-shop</code></pre>
     <section aria-labelledby="codex">
       <h2 id="codex">Codex</h2>
       <p>Add this to <code>~/.codex/config.toml</code>:</p>
-      <pre><code>[mcp_servers.rotexai-shop]
+      <pre><code>[mcp_servers.rotexai]
 url = "&lt;URL&gt;"
 scopes = ["openid"]
 
-[mcp_servers.rotexai-shop.oauth]
+[mcp_servers.rotexai.oauth]
 client_id = "rotexai-codex"</code></pre>
       <p>Then sign in:</p>
-      <pre><code>codex mcp login rotexai-shop</code></pre>
+      <pre><code>codex mcp login rotexai</code></pre>
     </section>
 
     <section aria-labelledby="claude-ai">
       <h2 id="claude-ai">claude.ai</h2>
       <ol>
         <li>Open <strong>Settings → Connectors → Add custom connector</strong>.</li>
-        <li>Paste the project's URL.</li>
+        <li>Paste the URL.</li>
         <li>Under <strong>Use your own OAuth client</strong>, set the client ID to <code>rotexai-claude-ai</code> and leave
           the secret blank.</li>
         <li>Connect, sign in to RotexAI and approve the access.</li>
@@ -83,7 +86,7 @@ client_id = "rotexai-codex"</code></pre>
 
     <h2>What agents can and cannot do</h2>
     <ul>
-      <li>Read the project and its objects, check workflow definitions, and, with changes allowed, create objects, edit
+      <li>List your projects and switch between them, read a project and its objects, check workflow definitions, and, with changes allowed, create objects, edit
         files in a sandbox workspace, run commands there and commit and push to the object's repository.</li>
       <li>Never publish, roll back or unpublish anything: you do that in the portal.</li>
       <li>Sandbox time counts towards the project's plan, as builds do. Over the plan's limit, commands are refused.</li>
