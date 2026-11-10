@@ -50,8 +50,10 @@
 
     <section aria-labelledby="claude-code">
       <h2 id="claude-code">Claude Code</h2>
-      <pre><code>claude mcp add --transport http rotexai &lt;URL&gt; --client-id rotexai-claude-code
+      <pre><code>claude mcp add --scope user --transport http rotexai &lt;URL&gt; --client-id rotexai-claude-code
 claude mcp login rotexai</code></pre>
+      <p>Run both in a terminal. <code>--scope user</code> makes the connection work in every folder, not only the one
+        you run it in.</p>
       <p>Or open <code>/mcp</code> in Claude Code and choose <strong>Authenticate</strong>. Your browser opens the RotexAI
         sign-in; approve the access and return to Claude Code.</p>
     </section>
