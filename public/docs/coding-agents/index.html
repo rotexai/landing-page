@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect your coding agent to RotexAI</title>
+  <meta name="description" content="Connect Claude Code, Codex or claude.ai to a RotexAI project over MCP." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- Customers' own coding agents (docs/specs/261110-mcp-gateway.md R15 in the aos repo). Brand tokens as landing.css. -->
+  <style>
+    :root { --ink: #0e1a24; --muted: #55626e; --line: #d9dfe4; --bg: #f5f7f8; --paper: #ffffff; --blue: #2445e8; --blue-tint: #eef1fe; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 20px 72px; }
+    a { color: var(--blue); }
+    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+    .home { font-weight: 700; color: var(--ink); text-decoration: none; }
+    h1 { font-size: 36px; line-height: 1.2; margin: 28px 0 12px; }
+    h2 { font-size: 22px; margin: 40px 0 8px; }
+    p, li { color: var(--ink); }
+    .lead, .muted { color: var(--muted); }
+    .note { background: var(--blue-tint); border-radius: 10px; padding: 14px 16px; margin: 20px 0; }
+    section { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 4px 22px 18px; margin-top: 20px; }
+    pre { background: #0e1a24; color: #f5f7f8; border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+    p code, li code { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+    ol, ul { padding-left: 22px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="home" href="/">RotexAI</a>
+    <h1>Connect your coding agent</h1>
+    <p class="lead">Build a RotexAI project with your own Claude Code, Codex or claude.ai. Your agent works in the
+      project with your own rights: it signs in as you, sees what you can see, and changes only what you may change.</p>
+    <p class="note">This is a preview on our staging environment. Sign in with your staging account.</p>
+
+    <h2>Before you start</h2>
+    <ol>
+      <li>Open the project in the portal, then <strong>Team → Coding agents</strong>.</li>
+      <li>Copy the project's URL. It looks like <code>https://staging-mcp.rotexai.com/p/&lt;project id&gt;</code>.
+        Add <code>/all</code> at the end for every tool (data, history and release as well as the core build tools).</li>
+      <li>Agents can only read until an owner or admin turns on <strong>Let coding agents make changes</strong> there.</li>
+    </ol>
+    <p class="muted">Below, replace <code>&lt;URL&gt;</code> with the project's URL and <code>rotexai-shop</code> with any
+      name you like for this connection.</p>
+
+    <section aria-labelledby="claude-code">
+      <h2 id="claude-code">Claude Code</h2>
+      <pre><code>claude mcp add --transport http rotexai-shop &lt;URL&gt; --client-id rotexai-claude-code
+claude mcp login rotexai-shop</code></pre>
+      <p>Or open <code>/mcp</code> in Claude Code and choose <strong>Authenticate</strong>. Your browser opens the RotexAI
+        sign-in; approve the access and return to Claude Code.</p>
+    </section>
+
+    <section aria-labelledby="codex">
+      <h2 id="codex">Codex</h2>
+      <p>Add this to <code>~/.codex/config.toml</code>:</p>
+      <pre><code>[mcp_servers.rotexai-shop]
+url = "&lt;URL&gt;"
+scopes = ["openid"]
+
+[mcp_servers.rotexai-shop.oauth]
+client_id = "rotexai-codex"</code></pre>
+      <p>Then sign in:</p>
+      <pre><code>codex mcp login rotexai-shop</code></pre>
+    </section>
+
+    <section aria-labelledby="claude-ai">
+      <h2 id="claude-ai">claude.ai</h2>
+      <ol>
+        <li>Open <strong>Settings → Connectors → Add custom connector</strong>.</li>
+        <li>Paste the project's URL.</li>
+        <li>Under <strong>Use your own OAuth client</strong>, set the client ID to <code>rotexai-claude-ai</code> and leave
+          the secret blank.</li>
+        <li>Connect, sign in to RotexAI and approve the access.</li>
+      </ol>
+    </section>
+
+    <h2>Ending an app's access</h2>
+    <p>Open <a href="https://staging-auth.rotexai.com/realms/workflows/account/#/applications">your RotexAI account</a>, <strong>Applications</strong>, and remove the app. The others stay signed in. The app's
+      calls stop within five minutes.</p>
+
+    <h2>What agents can and cannot do</h2>
+    <ul>
+      <li>Read the project and its objects, check workflow definitions, and, with changes allowed, create objects, edit
+        files in a sandbox workspace, run commands there and commit and push to the object's repository.</li>
+      <li>Never publish, roll back or unpublish anything: you do that in the portal.</li>
+      <li>Sandbox time counts towards the project's plan, as builds do. Over the plan's limit, commands are refused.</li>
+    </ul>
+  </main>
+</body>
+</html>
