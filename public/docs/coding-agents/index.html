@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connect your coding agent to RotexAI</title>
-  <meta name="description" content="Connect Claude Code, Codex or claude.ai to RotexAI over MCP." />
+  <meta name="description" content="Connect Claude Code, Codex, claude.ai or ChatGPT to RotexAI over MCP." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <!-- Customers' own coding agents (docs/specs/261110-mcp-gateway.md R15 in the aos repo). Brand tokens as landing.css. -->
   <style>
@@ -31,7 +31,7 @@
   <main>
     <a class="home" href="/">RotexAI</a>
     <h1>Connect your coding agent</h1>
-    <p class="lead">Build your RotexAI projects with your own Claude Code, Codex or claude.ai. Your agent works with
+    <p class="lead">Build your RotexAI projects with your own Claude Code, Codex, claude.ai or ChatGPT. Your agent works with
       your own rights: it signs in as you, sees what you can see, and changes only what you may change.</p>
     <p class="note">This is a preview on our staging environment. Sign in with your staging account.</p>
 
@@ -79,6 +79,18 @@ client_id = "rotexai-codex"</code></pre>
         <li>Under <strong>Use your own OAuth client</strong>, set the client ID to <code>rotexai-claude-ai</code> and leave
           the secret blank.</li>
         <li>Connect, sign in to RotexAI and approve the access.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="chatgpt">
+      <h2 id="chatgpt">ChatGPT</h2>
+      <ol>
+        <li>Turn on <strong>Developer mode</strong> in <strong>Settings → Apps → Advanced settings</strong>. Your ChatGPT plan
+          must allow it.</li>
+        <li>Add a custom MCP server and paste the URL.</li>
+        <li>Choose <strong>OAuth</strong> sign-in with your own OAuth client: set the client ID to <code>rotexai-chatgpt</code>
+          and leave the secret blank.</li>
+        <li>Create it, sign in to RotexAI and approve the access.</li>
       </ol>
     </section>
 
