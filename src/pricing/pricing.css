@@ -1,0 +1,60 @@
+/* Pricing page (aos docs/specs/261117-landing-airtable-style.md, A12). Tokens, buttons and type come from landing.css. */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.pr-hero { padding-top: 64px; max-width: 760px; }
+.pr-lead { margin-top: 20px; color: var(--muted); }
+
+/* Plan cards: four across, two at <= 1100 px, one at <= 640 px. */
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+.plan {
+  display: flex; flex-direction: column; gap: 16px; padding: 28px 24px;
+  border: 1px solid var(--line); border-radius: var(--radius-card); background: var(--paper);
+}
+.plan-popular { border: 2px solid var(--blue); padding: 27px 23px; box-shadow: 0 16px 40px rgba(36, 69, 232, .12); }
+.plan-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.plan-head .title { font-weight: 600; }
+.plan-badge { padding: 4px 10px; border-radius: 999px; background: var(--cyan-tint); color: var(--ink); font-weight: 600; }
+.plan-line { color: var(--muted); }
+/* "/ tháng" sits under the price on every card, so the longest price (Diamond) does not push its button down. */
+.plan-price { display: flex; flex-direction: column; gap: 2px; }
+.plan-price .h2 { font-weight: 600; white-space: nowrap; }
+.plan .btn { width: 100%; }
+.plan-limits { display: grid; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); font-size: var(--fs-small); }
+.plan-limits li { display: flex; gap: 10px; align-items: flex-start; }
+.plan-limits svg { flex: none; color: var(--blue); }
+.plan-limits strong { font-weight: 700; }
+.pr-pay { margin-top: 20px; }
+
+/* Comparison table: scrolls sideways inside its own box on narrow screens; the limit column stays put. */
+.pr-table-wrap { margin-top: 32px; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+.pr-table-wrap:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.pr-table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: var(--fs-small); }
+.pr-table th, .pr-table td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--line); }
+.pr-table tbody tr:last-child > * { border-bottom: 0; }
+.pr-table thead th { background: var(--grey); font-size: var(--fs-body); font-weight: 600; vertical-align: bottom; }
+.pr-table thead th .small { display: block; margin-top: 2px; font-weight: 500; }
+.pr-table tbody th { font-weight: 500; color: var(--muted); }
+.pr-table th:first-child { position: sticky; left: 0; z-index: 1; width: 30%; background: var(--paper); }
+.pr-table thead th:first-child { background: var(--grey); }
+.pr-table td { font-weight: 600; }
+
+/* FAQ */
+.faq { margin-top: 32px; border-top: 1px solid var(--line); max-width: 860px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 22px 0; cursor: pointer; list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; flex: none; font-size: var(--fs-title); color: var(--muted); }
+.faq details[open] summary::after { content: '−'; }
+.faq summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
+.faq details p { max-width: 720px; padding-bottom: 24px; color: var(--muted); }
+
+@media (max-width: 1100px) { .plans { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .pr-hero { padding-top: 40px; }
+  .plans { grid-template-columns: 1fr; margin-top: 32px; }
+  .pr-table th, .pr-table td { padding: 12px 14px; }
+  .pr-table { min-width: 560px; }
+}
