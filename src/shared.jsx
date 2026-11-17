@@ -88,7 +88,7 @@ const CONTACT = 'mailto:contact@rotexai.com'
 // The "Sản phẩm" menu: what the product does, how it looks, and the coding-agent guide.
 function productLinks(home) {
   return [
-    { href: `${home}#loi-ich`, title: 'Lợi ích', line: 'Đúng tiền, đúng kho. Sai ở đâu, thấy ngay.' },
+    { href: `${home}#loi-ich`, title: 'Bốn bước', line: 'Kể, duyệt kế hoạch, xem dựng, rồi dùng ngay.' },
     { href: `${home}#cach-lam`, title: 'Xem cách làm', line: 'Kể một câu, có phần mềm quản lý.' },
     { href: DOCS_AGENTS, title: 'Kết nối coding agent', line: 'Dùng RotexAI từ Claude Code, Codex, claude.ai hoặc ChatGPT.' },
   ]

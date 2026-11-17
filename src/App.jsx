@@ -6,27 +6,35 @@ import { Icon, Mark, Popover, SiteFooter, SiteHeader, TypeMenu } from './shared.
 
 // Landing page. Specs: aos docs/specs/261107-landing-redesign.md, restyled by 261117-landing-airtable-style.md.
 
-const BENEFITS = [
+// The four stages of the hero video, one still each (video/videos/landing-hero/scripts/cards.sh renders public/how/).
+const STEPS = [
   {
-    id: 'loi-ich-1',
+    id: 'buoc-1',
     tone: 'blue',
-    title: 'Đúng tiền, đúng kho',
-    line: 'Mỗi đơn đi qua từng bước bạn đọc hiểu được.',
-    icon: <><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6M9 16h3" /></>,
+    title: 'Kể bằng lời thường',
+    line: 'Nói như kể cho nhân viên mới, không cần biết lập trình.',
+    alt: 'Câu kể của chủ quán, các ý chính được tô sáng',
   },
   {
-    id: 'loi-ich-2',
+    id: 'buoc-2',
     tone: 'cyan',
-    title: 'Tự sửa bằng một câu',
-    line: 'Cách làm đổi thì nói một câu, xem trước rồi mới áp dụng.',
-    icon: <path d="M4 5h16v11H9l-5 4z" />,
+    title: 'Duyệt kế hoạch dễ hiểu',
+    line: 'Mỗi điều bạn kể thành một phần rõ ràng: bảng, quy trình, màn hình.',
+    alt: 'Kế hoạch của RotexAI: bảng dữ liệu, các bước ghi đơn và màn hình',
   },
   {
-    id: 'loi-ich-3',
+    id: 'buoc-3',
     tone: 'orange',
-    title: 'Sai ở đâu, thấy ngay',
-    line: 'Mở đơn lỗi là biết kẹt ở bước nào, vì sao.',
-    icon: <><circle cx="11" cy="11" r="6.5" /><path d="M20 20l-4.2-4.2" /></>,
+    title: 'Xem phần mềm được dựng',
+    line: 'Từng phần được dựng và kiểm tra trước khi bạn dùng.',
+    alt: 'Các phần của phần mềm gọi món đang được dựng',
+  },
+  {
+    id: 'buoc-4',
+    tone: 'sand',
+    title: 'Dùng ngay, thấy từng bước',
+    line: 'Mỗi đơn đi qua từng bước bạn đọc hiểu được; sai ở đâu thấy ngay.',
+    alt: 'Một đơn đi qua từng bước, bước lưu đơn đã xong',
   },
 ]
 
@@ -92,7 +100,7 @@ function useMedia(query) {
   return match
 }
 
-// Which benefit card is in the middle band of the viewport (drives the numbered list, spec A5).
+// Which step card is in the middle band of the viewport (drives the numbered list, spec A5).
 function useActiveCard(ids) {
   const [active, setActive] = useState(ids[0])
   useEffect(() => {
@@ -132,17 +140,17 @@ function HeroVideo() {
   )
 }
 
-const BENEFIT_IDS = BENEFITS.map((b) => b.id)
+const STEP_IDS = STEPS.map((b) => b.id)
 
-function Benefits() {
-  const active = useActiveCard(BENEFIT_IDS)
+function HowItWorks() {
+  const active = useActiveCard(STEP_IDS)
   return (
     <section id="loi-ich" className="section wrap">
       <h2 className="h2">Phần mềm chạy đúng cách quán bạn làm.</h2>
       <div className="steps">
-        <nav className="step-list" aria-label="Lợi ích">
+        <nav className="step-list" aria-label="Cách làm">
           <ol>
-            {BENEFITS.map((b, i) => (
+            {STEPS.map((b, i) => (
               <li key={b.id}>
                 <a href={`#${b.id}`} className="step-link" aria-current={active === b.id ? 'true' : undefined}>
                   <span className="step-num">{String(i + 1).padStart(2, '0')}</span> {b.title}
@@ -152,13 +160,14 @@ function Benefits() {
           </ol>
         </nav>
         <ul className="cards">
-          {BENEFITS.map((b) => (
+          {STEPS.map((b, i) => (
             <li key={b.id} id={b.id} className={`card tone-${b.tone}`}>
               <div className="card-text">
+                <span className="card-num">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="title">{b.title}</h3>
                 <p className="card-line">{b.line}</p>
               </div>
-              <span className="card-art"><Icon size={120}>{b.icon}</Icon></span>
+              <img className="card-shot" src={`/how/how-${i + 1}.webp`} width={1280} height={720} loading="lazy" decoding="async" alt={b.alt} />
             </li>
           ))}
         </ul>
@@ -183,7 +192,7 @@ export default function App() {
           <HeroVideo />
         </section>
 
-        <Benefits />
+        <HowItWorks />
 
         <Templates />
 

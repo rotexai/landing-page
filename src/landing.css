@@ -155,7 +155,7 @@ p { text-wrap: pretty; }
 .tone-peach { background: var(--orange-tint); color: var(--ink); }
 .tone-sand { background: var(--sand); color: var(--ink); }
 
-/* Benefits: numbered list + stacked cards (A5) */
+/* How it works: numbered list + one card per stage of the hero video, each with its still (A5) */
 .section > .h2 { max-width: 760px; }
 .steps { display: grid; grid-template-columns: 260px 1fr; gap: 40px; margin-top: 56px; align-items: start; }
 .step-list { position: sticky; top: calc(var(--bar-h) + 40px); }
@@ -169,25 +169,21 @@ p { text-wrap: pretty; }
 .step-link[aria-current]::before { opacity: 1; }
 .step-num { font-variant-numeric: tabular-nums; }
 .cards { display: grid; gap: 32px; }
-.card {
-  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px;
-  min-height: 380px; padding: 48px; border-radius: var(--radius-card);
-}
-.card-text { max-width: 440px; }
+.card { display: grid; gap: 32px; padding: 48px; border-radius: var(--radius-card); }
+.card-text { max-width: 560px; }
+.card-num { display: block; margin-bottom: 12px; font-size: var(--fs-small); font-weight: 600; font-variant-numeric: tabular-nums; opacity: .7; }
 .card-line { margin-top: 12px; opacity: .85; }
-.card-art {
-  align-self: stretch; display: flex; align-items: center; justify-content: center;
-  width: 280px; border-radius: 18px; background: rgba(255, 255, 255, .6); color: var(--blue);
+.card-shot {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 16px;
+  background: var(--paper); border: 1px solid rgba(14, 26, 36, .08); box-shadow: 0 12px 32px rgba(14, 26, 36, .10);
 }
-.tone-blue .card-art { background: rgba(255, 255, 255, .14); color: #fff; }
-.tone-orange .card-art { color: var(--orange); }
+.tone-blue .card-shot { border-color: rgba(255, 255, 255, .25); box-shadow: 0 12px 32px rgba(0, 0, 0, .22); }
 @media (max-width: 900px) {
   .steps { grid-template-columns: 1fr; margin-top: 32px; }
   .step-list { display: none; }
   .cards { gap: 16px; }
-  .card { grid-template-columns: 1fr; min-height: 0; padding: 24px; gap: 24px; }
-  .card-art { order: -1; width: 100%; height: 160px; }
-  .card-art svg { width: 88px; height: 88px; }
+  .card { padding: 24px; gap: 20px; }
+  .card-shot { border-radius: 12px; }
 }
 
 /* ERP types: heading + filter pills, a 4-column poster grid, "see all" (A6) */
