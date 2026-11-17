@@ -6,7 +6,8 @@ import { Icon, Mark, Popover, SiteFooter, SiteHeader, TypeMenu } from './shared.
 
 // Landing page. Specs: aos docs/specs/261107-landing-redesign.md, restyled by 261117-landing-airtable-style.md.
 
-// The four stages of the hero video, one still each (video/videos/landing-hero/scripts/cards.sh renders public/how/).
+// The four stages of the hero video, one image each, drawn for these cards (aos video/videos/landing-hero/src/cards/HowCards.tsx;
+// scripts/cards.sh renders public/how/).
 const STEPS = [
   {
     id: 'buoc-1',
@@ -34,7 +35,7 @@ const STEPS = [
     tone: 'sand',
     title: 'Dùng ngay, thấy từng bước',
     line: 'Mỗi đơn đi qua từng bước bạn đọc hiểu được; sai ở đâu thấy ngay.',
-    alt: 'Một đơn đi qua từng bước, bước lưu đơn đã xong',
+    alt: 'Đơn vừa lưu đi qua bốn bước, bước nào cũng có kết quả dễ hiểu',
   },
 ]
 
@@ -167,7 +168,7 @@ function HowItWorks() {
                 <h3 className="title">{b.title}</h3>
                 <p className="card-line">{b.line}</p>
               </div>
-              <img className="card-shot" src={`/how/how-${i + 1}.webp`} width={1280} height={720} loading="lazy" decoding="async" alt={b.alt} />
+              <img className="card-shot" src={`/how/how-${i + 1}.webp`} width={1600} height={900} loading="lazy" decoding="async" alt={b.alt} />
             </li>
           ))}
         </ul>
