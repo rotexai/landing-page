@@ -107,14 +107,14 @@ function useActiveCard(ids) {
   return active
 }
 
-// Muted loop of the simulated portal (aos video/src/landing/Hero.tsx): 16:9 cut, or the 4:5 cut on phones.
+// Muted loop of the simulated portal (aos video/videos/landing-hero/src/Hero.tsx): 16:9 cut, or the 4:5 cut on phones.
 // Reduced motion gets the poster only.
 function HeroVideo() {
   const still = useMedia('(prefers-reduced-motion: reduce)')
   const tall = useMedia('(max-width: 760px)')
   const name = tall ? 'hero-tall' : 'hero'
   const [w, h] = tall ? [1080, 1350] : [1600, 900]
-  const alt = 'RotexAI dựng phần mềm quản lý kho từ một câu mô tả'
+  const alt = 'RotexAI lên kế hoạch và dựng phần mềm gọi món cho quán cà phê từ một câu kể'
   return (
     <figure id="cach-lam" className="video">
       <div className={tall ? 'video-frame tall' : 'video-frame'}>
