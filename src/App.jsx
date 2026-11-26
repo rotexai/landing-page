@@ -6,8 +6,8 @@ import { Icon, Mark, Popover, SiteFooter, SiteHeader, TypeMenu } from './shared.
 
 // Landing page. Specs: aos docs/specs/261107-landing-redesign.md, restyled by 261117-landing-airtable-style.md.
 
-// The four stages of the hero video, one image each, drawn for these cards (aos video/videos/landing-hero/src/cards/HowCards.tsx;
-// scripts/cards.sh renders public/how/).
+// The four stages of the hero video, one image each, drawn for these cards (aos video/videos/landing-hero/src/v3/cards.tsx;
+// `scripts/cards.sh v3` renders public/how/).
 const STEPS = [
   {
     id: 'buoc-1',
