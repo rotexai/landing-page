@@ -41,7 +41,7 @@ export const ARTICLES = [
     title: 'Bắt đầu trong sáu bước',
     line: 'Từ một câu mô tả đến phần mềm cả nhóm dùng được.',
     sections: [
-      { id: 'tao-tai-khoan', h: 'Tạo tài khoản', body: <p>Vào <a href={PORTAL}>portal.rotexai.com</a> và đăng ký. Gói Free đủ để thử với tối đa 5 dự án và không cần thanh toán.</p> },
+      { id: 'tao-tai-khoan', h: 'Tạo tài khoản', body: <p>Vào <a href={PORTAL}>portal.rotexai.com</a> và đăng ký. Gói Free đủ để thử với tối đa 3 dự án và không cần thanh toán.</p> },
       {
         id: 'ke-cach-lam', h: 'Kể cách bạn làm',
         body: (
