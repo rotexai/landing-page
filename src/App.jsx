@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './landing.css'
 import { PORTAL, MARKET, marketHref } from './config.js'
 import { GROUPS, TYPES } from './erp.jsx'
@@ -116,24 +116,57 @@ function useActiveCard(ids) {
   return active
 }
 
-// Muted loop of the simulated portal (aos video/videos/landing-hero/src/Hero.tsx): 16:9 cut, or the 4:5 cut on phones.
-// Reduced motion gets the poster only.
+// Muted loop of the simulated portal (aos video/videos/landing-hero/src/Hero.tsx): 16:9 cut, or the 4:5 cut below
+// 1024 px. It pauses while out of view and has a pause button (WCAG 2.2.2); reduced motion gets the poster only.
+// Spec: aos docs/specs/261126-landing-hero-v3.md D11.
 function HeroVideo() {
   const still = useMedia('(prefers-reduced-motion: reduce)')
-  const tall = useMedia('(max-width: 760px)')
+  const tall = useMedia('(max-width: 1023px)')
   const name = tall ? 'hero-tall' : 'hero'
   const [w, h] = tall ? [1080, 1350] : [1600, 900]
   const alt = 'RotexAI lên kế hoạch và dựng phần mềm gọi món cho quán cà phê từ một câu kể'
+  const frame = useRef(null)
+  const video = useRef(null)
+  const [userPaused, setUserPaused] = useState(false)
+  const [inView, setInView] = useState(true)
+
+  useEffect(() => {
+    const el = frame.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(([e]) => setInView(e.intersectionRatio >= 0.25), { threshold: [0, 0.25] })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  // `name` and `still` swap the <video> element, so the new one is brought to the same state.
+  useEffect(() => {
+    const v = video.current
+    if (!v) return
+    if (inView && !userPaused) v.play()?.catch(() => {})
+    else v.pause()
+  }, [inView, userPaused, name, still])
+
   return (
     <figure id="cach-lam" className="video">
-      <div className={tall ? 'video-frame tall' : 'video-frame'}>
+      <div ref={frame} className={tall ? 'video-frame tall' : 'video-frame'}>
         {still ? (
           <img src={`/hero/${name}-poster.jpg`} width={w} height={h} alt={alt} />
         ) : (
-          <video key={name} autoPlay muted loop playsInline preload="auto" poster={`/hero/${name}-poster.jpg`} width={w} height={h} aria-label={alt}>
-            <source src={`/hero/${name}.webm`} type="video/webm" />
-            <source src={`/hero/${name}.mp4`} type="video/mp4" />
-          </video>
+          <>
+            <video ref={video} key={name} autoPlay muted loop playsInline preload="auto" poster={`/hero/${name}-poster.jpg`} width={w} height={h} aria-label={alt}>
+              <source src={`/hero/${name}.webm`} type="video/webm" />
+              <source src={`/hero/${name}.mp4`} type="video/mp4" />
+            </video>
+            <button type="button" className="video-toggle" aria-label="Tạm dừng video" aria-pressed={userPaused} onClick={() => setUserPaused((p) => !p)}>
+              <Icon size={22}>
+                {userPaused ? (
+                  <path d="M8 5.5v13l10.5-6.5z" fill="currentColor" />
+                ) : (
+                  <path d="M8 5v14M16 5v14" strokeWidth="3" />
+                )}
+              </Icon>
+            </button>
+          </>
         )}
       </div>
       <figcaption>Mô phỏng giao diện</figcaption>
