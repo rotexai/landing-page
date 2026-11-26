@@ -116,7 +116,7 @@ function useActiveCard(ids) {
   return active
 }
 
-// Muted loop of the simulated portal (aos video/videos/landing-hero/src/Hero.tsx): 16:9 cut, or the 4:5 cut below
+// Muted loop of the simulated portal (aos video/videos/landing-hero/src/v3/Hero.tsx, HeroTall.tsx): 16:9 cut, or the 4:5 cut below
 // 1024 px. It pauses while out of view and has a pause button (WCAG 2.2.2); reduced motion gets the poster only.
 // Spec: aos docs/specs/261126-landing-hero-v3.md D11.
 function HeroVideo() {
