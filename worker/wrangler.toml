@@ -1,0 +1,25 @@
+# Contact form Worker for rotexai.com/contact/ (aos spec docs/specs/261126-contact-page.md), built like the investor
+# page's Worker (261118). Free plan only: past 100k requests a day the Worker stops answering instead of billing (R18).
+# This repo is public: every credential and both mail addresses are Worker secrets (`npx wrangler secret bulk <file>`
+# from the aos workspace's env/contact/), never here:
+#   SMTP_HOST, SMTP_PORT (465 or 587; Workers cannot use 25), SMTP_USER, SMTP_PASS, MAIL_FROM, MAIL_TO, TURNSTILE_SECRET
+name = "rotexai-contact"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+send_metrics = false
+
+[vars]
+ALLOWED_ORIGINS = "https://rotexai.com"
+TURNSTILE_HOSTNAME = "rotexai.com"
+
+# Per-IP limit: 3 requests per 60 seconds (R12).
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "2611261"
+simple = { limit = 3, period = 60 }
+
+# Daily counters (R12): KV namespace rotexai-contact-counts, made with `roxctl platform cloudflare kv namespaces create`.
+[[kv_namespaces]]
+binding = "COUNTS"
+id = "96fe1f98045740419603b9e82cd4b00d"

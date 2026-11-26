@@ -1,0 +1,87 @@
+/* Contact page (aos docs/specs/261126-contact-page.md, C2). Tokens, buttons, pills, tone cards and type come from
+   landing.css; this file adds the form. New colours: field errors and the sent tick only. */
+.ct-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ct-muted { color: var(--muted); }
+.ct-link { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.ct-link:hover { color: var(--blue); }
+
+.ct-hero { display: grid; gap: 20px; max-width: 760px; padding-top: 64px; }
+.ct-eyebrow { font-weight: 600; }
+.ct-lead { max-width: 640px; }
+
+/* Form left, three cards right; one column below 1000 px. */
+.ct-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 32px; align-items: start; margin-top: 48px; }
+@media (max-width: 1000px) { .ct-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.ct-form-card { padding: 40px; border: 1px solid var(--line); border-radius: var(--radius-card); }
+@media (max-width: 760px) { .ct-form-card { padding: 24px; } .ct-hero { padding-top: 40px; } .ct-grid { margin-top: 32px; } }
+
+.ct-form { display: grid; gap: 28px; }
+.ct-topics { min-width: 0; margin: 0; padding: 0; border: 0; }
+.ct-topics legend { margin-bottom: 14px; padding: 0; }
+.ct-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.ct-topics .small { margin-top: 14px; }
+
+.ct-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 760px) { .ct-fields { grid-template-columns: minmax(0, 1fr); } }
+
+.ct-field { display: grid; gap: 8px; min-width: 0; align-content: start; }
+.ct-field label { font-size: var(--fs-small); font-weight: 600; }
+.ct-opt { font-weight: 400; color: var(--muted); }
+.ct-field input, .ct-field textarea {
+  width: 100%; min-width: 0; box-sizing: border-box; padding: 0 16px;
+  border: 1px solid #8a959f; border-radius: 12px; background: var(--paper); color: var(--ink);
+  font: inherit; line-height: 1.55;
+}
+.ct-field input { height: 52px; }
+.ct-field textarea { min-height: 168px; padding: 14px 16px; resize: vertical; }
+.ct-field input::placeholder, .ct-field textarea::placeholder { color: #66727d; }
+.ct-field input:focus-visible, .ct-field textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.ct-field [aria-invalid='true'] { border-color: #b3261e; box-shadow: inset 0 0 0 1px #b3261e; }
+.ct-error { display: flex; gap: 6px; align-items: flex-start; margin: 0; font-size: var(--fs-small); color: #b3261e; }
+.ct-error svg { flex: none; margin-top: 2px; }
+
+/* Bots fill every input; people never see this one. */
+.ct-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ct-turnstile:empty { display: none; }
+
+.ct-banner { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 16px; background: var(--orange-tint); font-size: var(--fs-small); }
+.ct-banner svg { flex: none; margin-top: 1px; }
+.ct-banner strong { font-size: var(--fs-body); font-weight: 600; }
+.ct-banner a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+.ct-submit { display: grid; gap: 16px; }
+.ct-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.ct-actions .btn { gap: 10px; }
+.btn:disabled { opacity: .7; cursor: default; }
+@media (max-width: 760px) {
+  .ct-submit .ct-actions { flex-direction: column; align-items: stretch; text-align: center; gap: 12px; }
+}
+
+.ct-sent { display: grid; justify-items: start; gap: 20px; padding: 8px 0; }
+.ct-sent h2:focus { outline: none; }
+.ct-tick { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 16px; background: #e2f3ea; color: #17734a; }
+.ct-summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; margin: 0; padding: 16px 20px; border-radius: 16px; background: var(--grey); }
+.ct-summary dd { margin: 0; font-weight: 600; color: var(--ink); }
+
+.ct-side { display: grid; gap: 16px; }
+.ct-card { display: grid; justify-items: start; gap: 12px; padding: 32px; border-radius: var(--radius-card); }
+.ct-card .btn { margin-top: 8px; }
+.ct-card .ct-actions .btn { margin-top: 0; }
+.ct-card .ct-actions { margin-top: 8px; gap: 12px 20px; }
+@media (max-width: 760px) { .ct-card { padding: 24px; } }
+
+.ct-mail { gap: 6px; padding: 28px 32px; border: 1px solid var(--line); justify-items: stretch; }
+@media (max-width: 760px) { .ct-mail { padding: 22px 24px; } }
+.ct-label { font-weight: 600; }
+.ct-mail-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+/* Body size keeps the address on one line beside its button in the 380 px column; it never breaks inside. */
+.ct-address { font-weight: 600; white-space: nowrap; }
+.ct-address:hover { color: var(--blue); }
+.ct-copy {
+  position: relative; flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink);
+  font: inherit; font-size: var(--fs-small); font-weight: 600; cursor: pointer;
+}
+.ct-copy:hover { border-color: var(--ink); }
+.ct-copy:focus-visible, .ct-sent .btn:focus-visible, .ct-actions .btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }

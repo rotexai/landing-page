@@ -30,6 +30,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Contact form (aos spec 261126-contact-page.md): repo variables; unset keeps the "write to us" fallback.
+          VITE_CONTACT_URL: ${{ vars.VITE_CONTACT_URL }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

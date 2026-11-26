@@ -1,0 +1,18 @@
+{
+  "name": "rotexai-contact",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker behind rotexai.com/contact/ (spec docs/specs/261126-contact-page.md in the aos workspace)",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "worker-mailer": "1.3.1"
+  },
+  "devDependencies": {
+    "vitest": "3.2.4",
+    "wrangler": "4.157.0"
+  }
+}

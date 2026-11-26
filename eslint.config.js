@@ -5,7 +5,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // worker/ is its own package (Cloudflare Workers runtime, vitest), as in web/investor. dist-live/ is the contact
+  // check's second build (Worker variables set to a stub).
+  globalIgnores(['dist', 'dist-live', 'worker']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

@@ -1,5 +1,5 @@
 // Pieces shared by the landing page and the marketplace page.
-import { DOCS_AGENTS, GUIDE, MARKET, PORTAL, PRICING, marketHref } from './config.js'
+import { CONTACT, CONTACT_EMAIL, DOCS_AGENTS, GUIDE, MARKET, PORTAL, PRICING, marketHref } from './config.js'
 import { TYPES } from './erp.jsx'
 import { useDisclosure } from './useDisclosure.js'
 
@@ -83,8 +83,6 @@ export function TypeMenu() {
   )
 }
 
-const CONTACT = 'mailto:contact@rotexai.com'
-
 // The "Sản phẩm" menu: what the product does, how it looks, and the coding-agent guide.
 function productLinks(home) {
   return [
@@ -101,7 +99,7 @@ const Chevron = () => (
 )
 
 // Phones: one button opens a full-width panel with every header destination.
-function MobileMenu({ home }) {
+function MobileMenu({ home, current }) {
   const { open, setOpen, root, button, onBlur, onPanelClick } = useDisclosure()
   return (
     <div className="mobile-menu" ref={root} onBlur={onBlur}>
@@ -118,7 +116,7 @@ function MobileMenu({ home }) {
           <a href={MARKET}>Ngành nghề</a>
           <a href={PRICING}>Bảng giá</a>
           <a href={GUIDE}>Hướng dẫn</a>
-          <a href={CONTACT}>Liên hệ</a>
+          <a href={CONTACT} aria-current={current === 'contact' ? 'page' : undefined}>Liên hệ</a>
           <div className="mobile-actions">
             <a href={PORTAL} className="btn btn-line">Đăng nhập</a>
             <a href={PORTAL} className="btn btn-dark">Thử ngay</a>
@@ -151,12 +149,12 @@ export function SiteHeader({ home = '', current = '' }) {
           </Popover>
           <a href={PRICING} className="nav-link" aria-current={current === 'pricing' ? 'page' : undefined}>Bảng giá</a>
           <a href={GUIDE} className="nav-link" aria-current={current === 'docs' ? 'page' : undefined}>Hướng dẫn</a>
-          <a href={CONTACT} className="nav-link">Liên hệ</a>
+          <a href={CONTACT} className="nav-link" aria-current={current === 'contact' ? 'page' : undefined}>Liên hệ</a>
         </nav>
         <div className="bar-actions">
           <a href={PORTAL} className="btn btn-line btn-sm bar-login">Đăng nhập</a>
           <a href={PORTAL} className="btn btn-dark btn-sm">Thử ngay</a>
-          <MobileMenu home={home} />
+          <MobileMenu home={home} current={current} />
         </div>
       </div>
     </header>
@@ -173,7 +171,7 @@ export function SiteFooter({ home = '' }) {
         <div className="foot-in wrap">
           <span className="small">© 2026 RotexAI</span>
           <span className="foot-links">
-            <a href="mailto:contact@rotexai.com" className="small">contact@rotexai.com</a>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="small">{CONTACT_EMAIL}</a>
             <a href={PORTAL} className="small">portal.rotexai.com</a>
           </span>
         </div>
